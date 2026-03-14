@@ -1,0 +1,8 @@
+Video Notes
+Notes for me to refer to when making the video for YT
+=== 3/13/2026 ===
+
+I added a color to the player of course I made the players Jersey Red beacuse of arsenal
+NGL the player model is scary
+I want to add a goalie but first I wanted to add an actual pitch line so it looked more like a soccer field.
+The scale was terribly off fixed it with just eyeballing it. I dont know if that is the best method
