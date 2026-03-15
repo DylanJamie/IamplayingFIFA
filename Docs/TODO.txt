@@ -2,7 +2,7 @@
 
 Color the Player (Done)
 Add white lines on the pitch (Done)
-Put some Stadium in the back
+Put some Stadium in the back (Done)
 
 Fix Ball to player Ratio
 Black and white pannels on ball
