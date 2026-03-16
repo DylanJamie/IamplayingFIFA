@@ -6,3 +6,5 @@ I added a color to the player of course I made the players Jersey Red beacuse of
 NGL the player model is scary
 I want to add a goalie but first I wanted to add an actual pitch line so it looked more like a soccer field.
 The scale was terribly off fixed it with just eyeballing it. I dont know if that is the best method
+So Then I tried to make a Stadium. I looked at the unity store and other 3D modeling software markets and I found that a lot of them had expensive Stadiums well I just didnt want to spend money.... cause i am broke. So I tried to make a blocky Stadium
+I also Hated the way the Field looked... I needed a Higher Res Image. I tried expanding the image in Photo shop but still was not satisfied. so i...
