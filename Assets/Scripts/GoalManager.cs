@@ -17,6 +17,9 @@ public class GoalManager : MonoBehaviour
     // UI Text that Displays Score
     public Text scoreText;
 
+    // UI Text that tells you a missed shot
+    public Text missText;
+
     [Header("Settings")]
     public int score = 0;
 
@@ -42,6 +45,26 @@ public class GoalManager : MonoBehaviour
         Invoke("ResetPositions", 3f);
     }
 
+    // Calls every time the goal is missed
+    public void GoalMissed() {
+	// Show missed Text
+	if (missText != null) {
+	    missText.text = "Missed!";
+	    missText.gameObject.SetActive(true);
+	    Invoke("HideMissText", 2f);
+	}
+	
+	// Reset the player and ball poistion after 3 seconds
+	Invoke("ResetPositions", 3f);
+    }
+
+    // Hide the miss text message
+    void HideMissText() {
+	if (missText != null) {
+	    missText.gameObject.SetActive(false);
+	}
+    }
+    
     // Reset the positions function
     void ResetPositions()
     {

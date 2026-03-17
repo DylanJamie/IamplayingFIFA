@@ -7,4 +7,6 @@ NGL the player model is scary
 I want to add a goalie but first I wanted to add an actual pitch line so it looked more like a soccer field.
 The scale was terribly off fixed it with just eyeballing it. I dont know if that is the best method
 So Then I tried to make a Stadium. I looked at the unity store and other 3D modeling software markets and I found that a lot of them had expensive Stadiums well I just didnt want to spend money.... cause i am broke. So I tried to make a blocky Stadium
-I also Hated the way the Field looked... I needed a Higher Res Image. I tried expanding the image in Photo shop but still was not satisfied. so i...
+I also Hated the way the Field looked... I needed a Higher Res Image. I tried expanding the image in Photo shop but still was not satisfied. so i...looked into how to enhance the image in photoshop
+I addded in the miss trigger of course i used the worst dimentions for the net so it was hard to calculate where to put it
+Was able to get the miss trigger in and working where if the player missed the goal the game would still reset
