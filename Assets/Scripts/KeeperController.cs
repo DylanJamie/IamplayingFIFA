@@ -3,87 +3,147 @@
 using UnityEngine;
 
 // Script to control the logic of the Goalie!
-public class KeeperController : MonoBehaviour
-{
-    // These Values Appear in the Inspector and can be adjusted
-    // This is how fast the keeper moves
-    public float moveSpeed = 3f;
+public class KeeperController : MonoBehaviour {
 
-    // This is how far the keeper moves
-    public float moveRange = 3f;
+    // -------- Inspector Settings -------
+    [Header("Patrol")]
+    // Side to side patrol speed when ball is far
+    public float patrolSpeed = 2.5f;
+    // How far left/right the keeper patrols from their start position
+    public float patrolRange = 2.5f;
 
-    // Ball Position variable
+    [Header("Reaction")]
+    // How close the ball needs to be before the keeper reacts
+    public float reactDistance = 12f;
+    // Delay before the keeper starts tracking the ball (simulates human reaction time)
+    public float reactionDelay = 0.2f;
+    // How fast the keeper moves to save once reacting
+    public float saveSpeed = 6f;
+
+    [Header("Difficulty")]
+    // Max random offset added to keeper guess (higher = easier for player)
+    public float maxGuessError = 1.2f;
+
+    [Header("References")]
     public Transform ball;
-
-    // Distance for when the Keeper Reacts
-    public float reactDistance = 10f;
-
-    // Reaction time for the keeper
-    public float reactionTime = 0.25f;
-
-    // Reaction Timer
-    public float reactTimer = 0f;
-
-    // Speed at which the keep saves
-    public float saveSpeed = 5f;
-
-    // This will store the Keepers Original X position when the game begins
-    // This will help with reseting and how far the Range really is
-    private float startX;
-    // This determines whether the keeper moves
-    private int direction = 1;
-
-    // Keeper Error
-    public float maxError = 1.0f;
-    private float shotGuessOffset = 0f;
-
-    // player variable
     public PlayerController player;
 
-    // Start function is ran when the game starts and saves the Keepers orignial X position
-    void Start()
-    {
-        startX = transform.position.x;
+    // ---------- Private State ----------
+
+    // The keeper's original position saved at game start
+    private Vector3 startPosition;
+ 
+    // Patrol direction: 1 = right, -1 = left
+    private int patrolDirection = 1;
+ 
+    // Reaction timer counts up once ball is close
+    private float reactionTimer = 0f;
+ 
+    // The keeper's guess for where the ball is going
+    // Set once when the shot is taken, not updated every frame
+    private float shotGuessX = 0f;
+    private bool hasGuessed = false;
+ 
+    // Keeper state machine
+    private enum KeeperState { Patrolling, Reacting, Saving }
+    private KeeperState state = KeeperState.Patrolling;
+
+    // Unity Life Cycle
+    void Start() {
+        startPosition = transform.position;
+    }
+ 
+    void Update() {
+        UpdateState();
+ 
+        switch (state) {
+            case KeeperState.Patrolling: Patrol(); break;
+            case KeeperState.Reacting:  React();   break;
+            case KeeperState.Saving:    Save();    break;
+        }
     }
 
-    // Update that sends this function every frame
-    void Update()
-    {
-        if (player.HasShot && shotGuessOffset == 0f)
+    // ------------ State Machine ------------
+
+    void UpdateState() {
+        bool ballIsClose = ball.position.z < reactDistance;
+        bool playerHasShot = player != null && player.HasShot;
+ 
+        if (playerHasShot)
         {
-            shotGuessOffset = Random.Range(-maxError, maxError);
-        }
-
-        float newX = transform.position.x;
-
-        // If the ball is closer than the keep react distance
-        if (ball.position.z < reactDistance) 
-        {
-            reactTimer += Time.deltaTime;
-
-            // Slow down the goalie to have a chance
-            if (reactTimer >= reactionTime) 
+            // Once the player shoots lock in a guess and go to saving
+            if (!hasGuessed)
             {
-                // tracks the balls X position
-                float targetX = ball.position.x + shotGuessOffset;
-                // Start moving toward the player
-                newX = Mathf.MoveTowards(transform.position.x, targetX, saveSpeed * Time.deltaTime);   
+                shotGuessX = ball.position.x + Random.Range(-maxGuessError, maxGuessError);
+                hasGuessed = true;
             }
+            state = KeeperState.Saving;
+        }
+        else if (ballIsClose)
+        {
+            state = KeeperState.Reacting;
         }
         else
         {
-            // Ball far normal patrol
-            reactTimer = 0f;
-            // Normal side to side movement
-            newX = transform.position.x + direction * moveSpeed * Time.deltaTime;
-
-            // Reverse the diection when hit limit
-            if (Mathf.Abs(newX - startX) >= moveRange) 
-            {
-                direction *= -1;
-            }
+            // Ball far away go back to patrol
+            state = KeeperState.Patrolling;
+            reactionTimer = 0f;
+            hasGuessed = false;
         }
-        transform.position = new Vector3(newX, transform.position.y, transform.position.z);
     }
 
+    // --------- Keeper Behaviours -----------
+    // side to side patrol while the ball is far
+    void Patrol() {
+        float newX = transform.position.x + patrolDirection * patrolSpeed * Time.deltaTime;
+ 
+        // Flip direction at patrol range limits
+        if (Mathf.Abs(newX - startPosition.x) >= patrolRange)
+        {
+            patrolDirection *= -1;
+        }
+ 
+        MoveToX(newX);
+    }
+
+    // Tracks the ball slowly when it gets close but player hasnt shot yet
+    // Simulates the keeper setting their feet
+    void React() {
+        reactionTimer += Time.deltaTime;
+ 
+        if (reactionTimer >= reactionDelay) {
+            // Gradually track the balls X, slower than saving to feel natural
+            float targetX = Mathf.Lerp(transform.position.x, ball.position.x, Time.deltaTime * 3f);
+            MoveToX(targetX);
+        }
+    }
+
+    // Dives to the guessed save position after player shoots
+    void Save() {
+        float newX = Mathf.MoveTowards(transform.position.x, shotGuessX, saveSpeed * Time.deltaTime);
+        MoveToX(newX);
+    }
+
+    // ----------- Helpers -------------
+    // Moves the keeper only on the X axis, preserving the Y and Z axis
+    void MoveToX(float targetX) {
+        transform.position = new Vector3(
+            targetX,
+            transform.position.y,
+            transform.position.z
+        );
+    }
+
+    // Called by GoalManager when resetting positions
+    // Resets keeper back to start and clears all state
+    public void ResetKeeper() {
+        transform.position = startPosition;
+        state = KeeperState.Patrolling;
+        reactionTimer = 0f;
+        hasGuessed = false;
+        shotGuessX = 0f;
+        patrolDirection = 1;
+    }
 }
+ 
+    

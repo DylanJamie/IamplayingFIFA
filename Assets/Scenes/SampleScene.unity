@@ -335,12 +335,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 93222761}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.2, y: 0, z: -65.4}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -26.20337, y: -0.08999, z: -33.76662}
   m_LocalScale: {x: 15, y: 1, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1468978907}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &191604126
 GameObject:
@@ -1032,14 +1032,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03490cf31e6f642eaad106860fde466a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KeeperController
-  moveSpeed: 3
-  moveRange: 3
-  ball: {fileID: 786275043}
+  patrolSpeed: 2.5
+  patrolRange: 2.5
   reactDistance: 10
-  reactionTime: 0.25
-  reactTimer: 0
+  reactionDelay: 0.2
   saveSpeed: 2
-  maxError: 1
+  maxGuessError: 1.2
+  ball: {fileID: 786275043}
   player: {fileID: 1517838957}
 --- !u!54 &607125729
 Rigidbody:
@@ -2820,12 +2819,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1231540888}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.2, y: 0.09, z: -65.4}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -26.20337, y: 0.00001000613, z: -33.76662}
   m_LocalScale: {x: 10, y: 1.5, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1468978907}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1334929345
 GameObject:
@@ -3181,6 +3180,8 @@ Transform:
   - {fileID: 1175383482}
   - {fileID: 1764762893}
   - {fileID: 340251293}
+  - {fileID: 93222765}
+  - {fileID: 1231540892}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1517838956
@@ -3216,11 +3217,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a4fdf5f871d47548853463f29f7560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  speed: 5
+  moveSpeed: 6
+  rotationSpeed: 720
+  dribbleDistance: 0.85
+  dribbleHeight: 0.2
+  dribbleSmoothSpeed: 12
+  dribbleBobAmount: 0.08
+  dribbleBobSpeed: 8
+  maxCharge: 50
+  chargeSpeed: 50
+  shotLift: 0.3
   ball: {fileID: 786275043}
-  PowerBar: {fileID: 2056002061}
-  maxcharge: 30
-  chargespeed: 35
+  powerBar: {fileID: 2056002061}
 --- !u!136 &1517838958
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4100,7 +4108,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1813556427}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.44, y: 0.74, z: -16.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4907,16 +4915,14 @@ SceneRoots:
   m_Roots:
   - {fileID: 963194228}
   - {fileID: 705507995}
-  - {fileID: 1231540892}
-  - {fileID: 93222765}
   - {fileID: 1468978907}
   - {fileID: 786275043}
+  - {fileID: 1813556428}
   - {fileID: 607125727}
   - {fileID: 974210361}
   - {fileID: 2126274003}
   - {fileID: 2013576927}
-  - {fileID: 1813556428}
-  - {fileID: 2092575532}
   - {fileID: 354046215}
   - {fileID: 2113595563}
+  - {fileID: 2092575532}
   - {fileID: 1850453854}
