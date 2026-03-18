@@ -16,3 +16,6 @@ I rewrote the Player and Goalie scripts to be a little bit cleaner. There are st
 I started to think that i should switch from this close 3rd person camera to a more fifa style camera.
 
 I was able to find a pool of Animations to add to the game with 50-55 Animations so i had to get to work adding them all to my game.
+
+I added some to the Goalie and made a mesh for the goalie. I tried putting gloves on him but i suck at blender and did not want to waste time. so I added the player in and gave him a different shirt. I added some animations and then i started to see some errors. The states were not switching because the field was in the '-' z axis. I ran with it sadly and fixed the code then i needed to fix the fact my animations were showing the goalie in the ground. like what even. The hips of the goalie were locked to the ground. I then added more side step animations and forgot to input the animations so that created an error.
+Then the patrol direction wasnt updating because it was only on patrol so the directionalSpeed Parameter I added in the Animator menu was not updating poperly.

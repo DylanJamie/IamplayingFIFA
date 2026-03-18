@@ -9,6 +9,16 @@ Black and white pannels on ball (kinda Done)
 
 When the player misses the game should reset (Done)
 Fix the Dribbling it looks terrible (Done)
+
+Keeper:
+Goalie mesh (Done)
+Fix the States (Done)
+Fix the Side to side in Reaction State
+Give Goalie a diving animation
+Make sure when the Goalie Catches the ball he scoops it up and the ball is in hands
+Goalie saved it
+Roll the ball out
+
 Fifa Camera
 
 Power bar this should be above the player and look good
@@ -20,7 +30,3 @@ Goal Celebration (Flash Screen, Play a crowd cheer, little camera shake
 Ball Kick Sound, hit net, crowd ambient noise
 After Shot the player should not freeze
 
-Goalie mesh (Done)
-Give Goalie a diving animation
-Goalie saved it
-Roll the ball out

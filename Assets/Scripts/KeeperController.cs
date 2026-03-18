@@ -37,7 +37,7 @@ public class KeeperController : MonoBehaviour {
     private Vector3 startPosition;
  
     // Patrol direction: 1 = right, -1 = left
-    private int patrolDirection = 1;
+    private int movementDirection = 1;
  
     // Reaction timer counts up once ball is close
     private float reactionTimer = 0f;
@@ -72,9 +72,6 @@ public class KeeperController : MonoBehaviour {
     void UpdateState() {
         bool ballIsClose = ball.position.z >= reactDistance;
         bool playerHasShot = player != null && player.HasShot;
-
-	Debug.Log("Ball position z : " + ball.position.z);
-	Debug.Log("React Distance : " + reactDistance);
 	
         if (playerHasShot) {
             // Once the player shoots lock in a guess and go to saving
@@ -102,9 +99,10 @@ public class KeeperController : MonoBehaviour {
 	// Speed drives idle vs shuffle animation
 	float directionalSpeed = 0f;
 
+	// if the goalie is in patrol state
 	if (state == KeeperState.Patrolling || state == KeeperState.Reacting) {
 	    // Patrol direction is 1 right or -1 left
-	    directionalSpeed = patrolDirection * patrolSpeed; 
+	    directionalSpeed = movementDirection * patrolSpeed;
 	}
 	
 	keeperAnimator.SetFloat("Speed", directionalSpeed);
@@ -115,11 +113,11 @@ public class KeeperController : MonoBehaviour {
     // side to side patrol for the goalie.
     // this is the distance that the goalie can run back and forth
     void Patrol() {
-        float newX = transform.position.x + patrolDirection * patrolSpeed * Time.deltaTime;
+        float newX = transform.position.x + movementDirection * patrolSpeed * Time.deltaTime;
  
         // Flip direction at patrol range limits
         if (Mathf.Abs(newX - startPosition.x) >= patrolRange) {
-            patrolDirection *= -1;
+            movementDirection *= -1;
         }
 	
         MoveToX(newX);
@@ -129,21 +127,41 @@ public class KeeperController : MonoBehaviour {
     // Simulates the keeper setting their feet
     void React() {
         reactionTimer += Time.deltaTime;
- 
+
+	float targetX = 0f;
+	
         if (reactionTimer >= reactionDelay) {
             // Gradually track the balls X, slower than saving to feel natural
-            float targetX = Mathf.Lerp(transform.position.x, ball.position.x, Time.deltaTime * 3f);
+            targetX = Mathf.Lerp(transform.position.x, ball.position.x, Time.deltaTime * 3f);
             MoveToX(targetX);
-        }	    
+        }
+
+	// Calculate the diffence in position to see which way the goalie needs to move.
+	float difference_in_position = targetX - transform.position.x;
+
+	// See which way the player is moving and update movement direction
+	Debug.Log("Target X: " + targetX);
+	Debug.Log("difference in pos: " + difference_in_position);
+	Debug.Log("X pos: " + transform.position.x);
+	
+	// If the ball is moving to the left move to the left so side step right because of inverse
+	// if ball is moving right move right side step left
+	// otherwise == 0
+	if (difference_in_position > 0) {
+	    movementDirection = 1;
+		} else if (difference_in_position < 0) {
+	    movementDirection = -1;
+	} else {
+	    movementDirection = 0;
+	}
+
+	Debug.Log(movementDirection);
     }
 
     // Dives to the guessed save position after player shoots
     void Save() {
         float newX = Mathf.MoveTowards(transform.position.x, shotGuessX, saveSpeed * Time.deltaTime);
         MoveToX(newX);
-
-	// Set the animation to true
-	// anim.SetBool("IsSaving", true);
     }
 
     // ----------- Helpers -------------
@@ -164,7 +182,7 @@ public class KeeperController : MonoBehaviour {
         reactionTimer = 0f;
         hasGuessed = false;
         shotGuessX = 0f;
-        patrolDirection = 1;
+        movementDirection = 1;
 
 	// reset the animation states
 	if (keeperAnimator != null) {
