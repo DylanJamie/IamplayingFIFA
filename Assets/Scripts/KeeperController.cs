@@ -102,16 +102,14 @@ public class KeeperController : MonoBehaviour {
 	if (keeperAnimator == null) return;
 
 	// Speed drives idle vs shuffle animation
-	float currentSpeed = 0f;
+	float directionalSpeed = 0f;
 
-	if (state == KeeperState.Patrolling)
-	    currentSpeed = patrolSpeed;
-	else if (state == KeeperState.Reacting)
-	    currentSpeed = 3f;
-	else if (state == KeeperState.Saving)
-	    currentSpeed = saveSpeed;
-
-	keeperAnimator.SetFloat("Speed", currentSpeed);
+	if (state == KeeperState.Patrolling || state == KeeperState.Reacting) {
+	    // Patrol direction is 1 right or -1 left
+	    directionalSpeed = patrolDirection * patrolSpeed;
+	}
+	
+	keeperAnimator.SetFloat("Speed", directionalSpeed);
 	keeperAnimator.SetBool("IsSaving", state == KeeperState.Saving);
     }
 
@@ -126,6 +124,10 @@ public class KeeperController : MonoBehaviour {
         }
  
         MoveToX(newX);
+
+	
+	// Implement The Logic whether side stepping left or right
+	   
     }
 
     // Tracks the ball slowly when it gets close but player hasnt shot yet
@@ -137,13 +139,16 @@ public class KeeperController : MonoBehaviour {
             // Gradually track the balls X, slower than saving to feel natural
             float targetX = Mathf.Lerp(transform.position.x, ball.position.x, Time.deltaTime * 3f);
             MoveToX(targetX);
-        }
+        }	    
     }
 
     // Dives to the guessed save position after player shoots
     void Save() {
         float newX = Mathf.MoveTowards(transform.position.x, shotGuessX, saveSpeed * Time.deltaTime);
         MoveToX(newX);
+
+	// Set the animation to true
+	// anim.SetBool("IsSaving", true);
     }
 
     // ----------- Helpers -------------
