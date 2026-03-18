@@ -14,3 +14,5 @@ Was able to get the miss trigger in and working where if the player missed the g
 I rewrote the Player and Goalie scripts to be a little bit cleaner. There are still bugs but at least the code looks better and it is easier to edit the values within unities inspector.
 
 I started to think that i should switch from this close 3rd person camera to a more fifa style camera.
+
+I was able to find a pool of Animations to add to the game with 50-55 Animations so i had to get to work adding them all to my game.

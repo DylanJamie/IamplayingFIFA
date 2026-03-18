@@ -342,6 +342,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1468978907}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &133376033 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+  m_PrefabInstance: {fileID: 2096042613}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &191604126
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,10 +950,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!23 &607125725
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1014,7 +1019,7 @@ Transform:
   m_GameObject: {fileID: 607125723}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.444, y: 1.2, z: 0.174}
+  m_LocalPosition: {x: 0, y: 0, z: 0.174}
   m_LocalScale: {x: 1.5, y: 1.4, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1041,6 +1046,7 @@ MonoBehaviour:
   maxGuessError: 1.2
   ball: {fileID: 786275043}
   player: {fileID: 1517838957}
+  keeperAnimator: {fileID: 807400279}
 --- !u!54 &607125729
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1691,6 +1697,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
   m_PrefabInstance: {fileID: 2096042613}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &807400279 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+  m_PrefabInstance: {fileID: 2096042613}
+  m_PrefabAsset: {fileID: 0}
+--- !u!111 &807400280
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133376033}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_Animation: {fileID: -203655887218126122, guid: bbbe12c6f9c514635932f47abd17751c, type: 3}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &811437154
 GameObject:
   m_ObjectHideFlags: 0
@@ -3010,7 +3037,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3074,7 +3101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: m_Name
-      value: PlayerModel
+      value: Player_Mesh
       objectReference: {fileID: 0}
     - target: {fileID: 4308596981445705757, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4701,7 +4728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.83
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4736,16 +4763,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1995193734550662009, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1995193734550662009, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1995193734550662009, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: e808e0bc6740343428962d0f17ebb67e, type: 2}
+    - target: {fileID: -480710557608370346, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -480710557608370346, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -480710557608370346, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: a76b1817acf13473aac8085633348db0, type: 2}
     - target: {fileID: 919132149155446097, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: m_Name
-      value: Ch38_nonPBR
+      value: Keeper_Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308596981445705757, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5555716678201972220, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -4759,6 +4806,25 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e7ff6f0c3f35944e3befb6b8f991fa10, type: 2}
+    - target: {fileID: 5866666021909216657, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'mixamorig5:Hips'\n\tTransform 'mixamorig5:Spine'\n\tTransform
+        'mixamorig5:RightHandRing3'\n\tTransform 'mixamorig5:RightHandIndex1'\n\tTransform
+        'mixamorig5:LeftHandRing2'\n\tTransform 'mixamorig5:LeftLeg'\n\tTransform
+        'mixamorig5:LeftToeBase'\n\tTransform 'mixamorig5:LeftHand'\n\tTransform
+        'mixamorig5:LeftHandIndex1'\n\tTransform 'mixamorig5:RightFoot'\n\tand more
+        ...\n\tFrom animation clip 'Goalkeeper Idle'"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6224884472688424325, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -4774,7 +4840,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 807400280}
   m_SourcePrefab: {fileID: 100100000, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
 --- !u!1 &2097690712
 GameObject:

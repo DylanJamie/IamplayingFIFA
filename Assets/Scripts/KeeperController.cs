@@ -28,6 +28,9 @@ public class KeeperController : MonoBehaviour {
     public Transform ball;
     public PlayerController player;
 
+    [Header("Animation")]
+    public Animator keeperAnimator;
+
     // ---------- Private State ----------
 
     // The keeper's original position saved at game start
@@ -90,6 +93,26 @@ public class KeeperController : MonoBehaviour {
             reactionTimer = 0f;
             hasGuessed = false;
         }
+	// Push state to Animator every Frame
+	UpdateAnimator();
+    }
+
+    // All Animation Logic
+    void UpdateAnimator() {
+	if (keeperAnimator == null) return;
+
+	// Speed drives idle vs shuffle animation
+	float currentSpeed = 0f;
+
+	if (state == KeeperState.Patrolling)
+	    currentSpeed = patrolSpeed;
+	else if (state == KeeperState.Reacting)
+	    currentSpeed = 3f;
+	else if (state == KeeperState.Saving)
+	    currentSpeed = saveSpeed;
+
+	keeperAnimator.SetFloat("Speed", currentSpeed);
+	keeperAnimator.SetBool("IsSaving", state == KeeperState.Saving);
     }
 
     // --------- Keeper Behaviours -----------
@@ -98,8 +121,7 @@ public class KeeperController : MonoBehaviour {
         float newX = transform.position.x + patrolDirection * patrolSpeed * Time.deltaTime;
  
         // Flip direction at patrol range limits
-        if (Mathf.Abs(newX - startPosition.x) >= patrolRange)
-        {
+        if (Mathf.Abs(newX - startPosition.x) >= patrolRange) {
             patrolDirection *= -1;
         }
  
@@ -143,6 +165,12 @@ public class KeeperController : MonoBehaviour {
         hasGuessed = false;
         shotGuessX = 0f;
         patrolDirection = 1;
+
+	// reset the animation states
+	if (keeperAnimator != null) {
+	    keeperAnimator.SetFloat("Speed", 0f);
+	    keeperAnimator.SetBool("IsSaving", false);
+	}
     }
 }
  
