@@ -1035,7 +1035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeeperController
   patrolSpeed: 2.5
   patrolRange: 2.5
-  reactDistance: 10
+  reactDistance: -18
   reactionDelay: 0.2
   saveSpeed: 2
   maxGuessError: 1.2

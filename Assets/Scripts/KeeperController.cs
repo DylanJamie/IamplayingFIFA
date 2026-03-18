@@ -64,30 +64,28 @@ public class KeeperController : MonoBehaviour {
             case KeeperState.Reacting:  React();   break;
             case KeeperState.Saving:    Save();    break;
         }
+	Debug.Log($"Keeper State: {state}"); // Bro is always reacting
     }
 
     // ------------ State Machine ------------
 
     void UpdateState() {
-        bool ballIsClose = ball.position.z < reactDistance;
+        bool ballIsClose = ball.position.z >= reactDistance;
         bool playerHasShot = player != null && player.HasShot;
- 
-        if (playerHasShot)
-        {
+
+	Debug.Log("Ball position z : " + ball.position.z);
+	Debug.Log("React Distance : " + reactDistance);
+	
+        if (playerHasShot) {
             // Once the player shoots lock in a guess and go to saving
-            if (!hasGuessed)
-            {
+            if (!hasGuessed) {
                 shotGuessX = ball.position.x + Random.Range(-maxGuessError, maxGuessError);
                 hasGuessed = true;
             }
             state = KeeperState.Saving;
-        }
-        else if (ballIsClose)
-        {
+        } else if (ballIsClose) {
             state = KeeperState.Reacting;
-        }
-        else
-        {
+        } else {
             // Ball far away go back to patrol
             state = KeeperState.Patrolling;
             reactionTimer = 0f;
@@ -106,7 +104,7 @@ public class KeeperController : MonoBehaviour {
 
 	if (state == KeeperState.Patrolling || state == KeeperState.Reacting) {
 	    // Patrol direction is 1 right or -1 left
-	    directionalSpeed = patrolDirection * patrolSpeed;
+	    directionalSpeed = patrolDirection * patrolSpeed; 
 	}
 	
 	keeperAnimator.SetFloat("Speed", directionalSpeed);
@@ -114,7 +112,8 @@ public class KeeperController : MonoBehaviour {
     }
 
     // --------- Keeper Behaviours -----------
-    // side to side patrol while the ball is far
+    // side to side patrol for the goalie.
+    // this is the distance that the goalie can run back and forth
     void Patrol() {
         float newX = transform.position.x + patrolDirection * patrolSpeed * Time.deltaTime;
  
@@ -122,12 +121,8 @@ public class KeeperController : MonoBehaviour {
         if (Mathf.Abs(newX - startPosition.x) >= patrolRange) {
             patrolDirection *= -1;
         }
- 
-        MoveToX(newX);
-
 	
-	// Implement The Logic whether side stepping left or right
-	   
+        MoveToX(newX);
     }
 
     // Tracks the ball slowly when it gets close but player hasnt shot yet
