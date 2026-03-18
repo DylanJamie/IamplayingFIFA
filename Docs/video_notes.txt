@@ -10,3 +10,7 @@ So Then I tried to make a Stadium. I looked at the unity store and other 3D mode
 I also Hated the way the Field looked... I needed a Higher Res Image. I tried expanding the image in Photo shop but still was not satisfied. so i...looked into how to enhance the image in photoshop
 I addded in the miss trigger of course i used the worst dimentions for the net so it was hard to calculate where to put it
 Was able to get the miss trigger in and working where if the player missed the goal the game would still reset
+
+I rewrote the Player and Goalie scripts to be a little bit cleaner. There are still bugs but at least the code looks better and it is easier to edit the values within unities inspector.
+
+I started to think that i should switch from this close 3rd person camera to a more fifa style camera.
