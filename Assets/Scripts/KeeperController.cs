@@ -113,6 +113,12 @@ public class KeeperController : MonoBehaviour {
     // side to side patrol for the goalie.
     // this is the distance that the goalie can run back and forth
     void Patrol() {
+	// Set movement direction to 1 so the goalie can start patroling
+	// Only if movement is at 0
+	if (movementDirection == 0) {
+	    movementDirection = 1;
+	}
+	    
         float newX = transform.position.x + movementDirection * patrolSpeed * Time.deltaTime;
  
         // Flip direction at patrol range limits
@@ -136,8 +142,8 @@ public class KeeperController : MonoBehaviour {
             MoveToX(targetX);
         }
 
-	// Calculate the diffence in position to see which way the goalie needs to move.
-	float difference_in_position = targetX - transform.position.x;
+	// Calculate the diffence in the ball to the goalies X positions to see which way the goalie needs to move.
+	float difference_in_position = ball.position.x - transform.position.x;
 
 	// See which way the player is moving and update movement direction
 	Debug.Log("Target X: " + targetX);
@@ -147,9 +153,9 @@ public class KeeperController : MonoBehaviour {
 	// If the ball is moving to the left move to the left so side step right because of inverse
 	// if ball is moving right move right side step left
 	// otherwise == 0
-	if (difference_in_position > 0) {
+	if (difference_in_position > 0.5) {
 	    movementDirection = 1;
-		} else if (difference_in_position < 0) {
+	} else if (difference_in_position < -0.5) {
 	    movementDirection = -1;
 	} else {
 	    movementDirection = 0;
