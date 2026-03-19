@@ -4,6 +4,7 @@
 /[Oo]bj/
 /[Bb]uild/
 /[Ll]ogs/
+UserSettings/
 
 # Asset meta data
 !/[Aa]ssets/**/*.meta
