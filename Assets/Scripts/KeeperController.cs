@@ -20,6 +20,14 @@ public class KeeperController : MonoBehaviour {
     // How fast the keeper moves to save once reacting
     public float saveSpeed = 6f;
 
+    [Header("Diving")]
+    // how far the keeper can reach to make a save
+    public float diveRange = 3.5f;
+    // How close the keeper needs to get to actually save the ball
+    public float saveRadius = 0.8f;
+    // Extra Error so the player can still score
+    public float keeperErrorMargin = 0.4f;
+
     [Header("Difficulty")]
     // Max random offset added to keeper guess (higher = easier for player)
     public float maxGuessError = 1.2f;
@@ -46,6 +54,8 @@ public class KeeperController : MonoBehaviour {
     // Set once when the shot is taken, not updated every frame
     private float shotGuessX = 0f;
     private bool hasGuessed = false;
+    private bool hasSaveResult = false;
+    private bool canReachBall = false;
  
     // Keeper state machine
     private enum KeeperState { Patrolling, Reacting, Saving }
@@ -55,7 +65,8 @@ public class KeeperController : MonoBehaviour {
     void Start() {
         startPosition = transform.position;
     }
- 
+
+    // Function to update every frame. We need to update the State Every Frame so the Game knows which state the goalie is in
     void Update() {
         UpdateState();
  
@@ -64,7 +75,7 @@ public class KeeperController : MonoBehaviour {
             case KeeperState.Reacting:  React();   break;
             case KeeperState.Saving:    Save();    break;
         }
-	Debug.Log($"Keeper State: {state}"); // Bro is always reacting
+	UpdateAnimator();
     }
 
     // ------------ State Machine ------------
@@ -75,21 +86,27 @@ public class KeeperController : MonoBehaviour {
 	
         if (playerHasShot) {
             // Once the player shoots lock in a guess and go to saving
-            if (!hasGuessed) {
+            if (hasGuessed == false) {
                 shotGuessX = ball.position.x + Random.Range(-maxGuessError, maxGuessError);
                 hasGuessed = true;
+
+		// Check the distance from the keeper to where the ball is going After the player shoots
+		float distancetoBall = Mathf.Abs(shotGuessX - transform.position.x);
+		canReachBall = distancetoBall <= diveRange;
+
+		Debug.Log($"Shot | CanReach: {canReachBall}");
             }
             state = KeeperState.Saving;
-        } else if (ballIsClose) {
+        } else if (ballIsClose == true) {
             state = KeeperState.Reacting;
         } else {
             // Ball far away go back to patrol
             state = KeeperState.Patrolling;
             reactionTimer = 0f;
             hasGuessed = false;
+	    hasSaveResult = false;
+	    canReachBall = false;
         }
-	// Push state to Animator every Frame
-	UpdateAnimator();
     }
 
     // All Animation Logic
@@ -104,8 +121,15 @@ public class KeeperController : MonoBehaviour {
 	    // Patrol direction is 1 right or -1 left
 	    directionalSpeed = movementDirection * patrolSpeed;
 	}
+
+	// if the goalie is saving
+	float divingdirection = 0f;
+	if (state == KeeperState.Saving) {
+	    divingdirection = Mathf.Sign(shotGuessX - transform.position.x);
+	}
 	
 	keeperAnimator.SetFloat("Speed", directionalSpeed);
+	keeperAnimator.SetFloat("SaveSpeed", divingdirection);
 	keeperAnimator.SetBool("IsSaving", state == KeeperState.Saving);
     }
 
@@ -144,11 +168,6 @@ public class KeeperController : MonoBehaviour {
 
 	// Calculate the diffence in the ball to the goalies X positions to see which way the goalie needs to move.
 	float difference_in_position = ball.position.x - transform.position.x;
-
-	// See which way the player is moving and update movement direction
-	Debug.Log("Target X: " + targetX);
-	Debug.Log("difference in pos: " + difference_in_position);
-	Debug.Log("X pos: " + transform.position.x);
 	
 	// If the ball is moving to the left move to the left so side step right because of inverse
 	// if ball is moving right move right side step left
@@ -160,14 +179,41 @@ public class KeeperController : MonoBehaviour {
 	} else {
 	    movementDirection = 0;
 	}
-
-	Debug.Log(movementDirection);
     }
 
     // Dives to the guessed save position after player shoots
     void Save() {
-        float newX = Mathf.MoveTowards(transform.position.x, shotGuessX, saveSpeed * Time.deltaTime);
+	// if the Ball is out of reach for the Goalie
+	if (canReachBall == false) {
+	    // Still animate the dive so it looks natural
+	    float missX = transform.position.x * movementDirection * saveSpeed * Time.deltaTime;
+	    MoveToX(missX);
+	    return;
+	}
+
+	// Dive toward the Guessed position
+	float newX = Mathf.MoveTowards(transform.position.x, shotGuessX, saveSpeed * Time.deltaTime);
         MoveToX(newX);
+
+	// Check if the player has reached the ball
+	if (hasSaveResult == false) {
+	    float distanceToGuess = Mathf.Abs(transform.position.x - shotGuessX);
+
+	    // see if the distance is in the goailes Radius
+	    if (distanceToGuess <= saveRadius) {
+		hasSaveResult = true;
+
+	        // Add an error to the Goalie
+		float saveRoll = Random.Range(0f, 1f);
+		if (saveRoll > keeperErrorMargin) {
+		    Debug.Log("SAVE!");
+		    // TODO: GoalManager.OnSave()
+		} else {
+		    Debug.Log("GOAL! Keeper fumbled!");
+		    // TODO: GoalManager.OnGoal()
+		}
+	    }
+	}
     }
 
     // ----------- Helpers -------------
@@ -187,12 +233,15 @@ public class KeeperController : MonoBehaviour {
         state = KeeperState.Patrolling;
         reactionTimer = 0f;
         hasGuessed = false;
+	hasSaveResult = false;
+	canReachBall = false;
         shotGuessX = 0f;
         movementDirection = 1;
 
 	// reset the animation states
 	if (keeperAnimator != null) {
 	    keeperAnimator.SetFloat("Speed", 0f);
+	    keeperAnimator.SetFloat("SaveSpeed", 0f);
 	    keeperAnimator.SetBool("IsSaving", false);
 	}
     }

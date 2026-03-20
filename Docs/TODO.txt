@@ -13,8 +13,9 @@ Fix the Dribbling it looks terrible (Done)
 Keeper:
 Goalie mesh (Done)
 Fix the States (Done)
-Fix the Side to side in Reaction State
-Give Goalie a diving animation
+Fix the Side to side in Reaction State (Done)
+Give Goalie a diving animation (Done)
+Make it so the goalie can actually save
 Make sure when the Goalie Catches the ball he scoops it up and the ball is in hands
 Goalie saved it
 Roll the ball out

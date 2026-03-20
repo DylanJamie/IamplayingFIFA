@@ -19,3 +19,7 @@ I was able to find a pool of Animations to add to the game with 50-55 Animations
 
 I added some to the Goalie and made a mesh for the goalie. I tried putting gloves on him but i suck at blender and did not want to waste time. so I added the player in and gave him a different shirt. I added some animations and then i started to see some errors. The states were not switching because the field was in the '-' z axis. I ran with it sadly and fixed the code then i needed to fix the fact my animations were showing the goalie in the ground. like what even. The hips of the goalie were locked to the ground. I then added more side step animations and forgot to input the animations so that created an error.
 Then the patrol direction wasnt updating because it was only on patrol so the directionalSpeed Parameter I added in the Animator menu was not updating poperly.
+
+I had to change the way the goalie knows if he is going to the left or right so he performs the right animation. so instead of the Lerp - the goalie Position which came out to 0 i did the ball position x - the goalie position x. still alot of buggs but i was happy to see all the states working. 
+
+Made it so the Goalie diving animation was actually working and the goalie dove when the ball was to the right or left of him. Had to embed the animation to his feet so he was not playing the diving animaiton and landing in the air but this was actually satisfiying to fix
