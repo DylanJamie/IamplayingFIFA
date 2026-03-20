@@ -69,7 +69,8 @@ public class KeeperController : MonoBehaviour {
     // Function to update every frame. We need to update the State Every Frame so the Game knows which state the goalie is in
     void Update() {
         UpdateState();
- 
+
+	// States for the goalie
         switch (state) {
             case KeeperState.Patrolling: Patrol(); break;
             case KeeperState.Reacting:  React();   break;
