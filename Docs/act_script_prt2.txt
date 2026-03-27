@@ -1,0 +1,39 @@
+Look Last time i tried building a Fifa game in unity and it looked like this.
+this time around... I wanted to add improvements to the goalie fix the look of the field and impormentmets to the animations. basically making the worst optimized code in my life befor i blow up my mac book. Please let me know in the comments what you want to see added to this game!
+Alright, welcome back to Part 2 of building Fifa in unity. If you havent seen Part 1... go check it out... or dont... honestly it is pretty terrible.
+But today this into an actual functioning game
+
+First i wanted to fix my player. in part 1 the dribbling was terrible where the ball was just where ever it wanted to be around the player. To make the game a bit more pleasing to look at I gave the player a red jersey... beacuse obviously... Arsenal.
+Also... why does he look like that. this man know something that i dont.
+
+then i moved on to making the field look nicer. before it looked like a green rectangle from 2004. so i added a png overlay of a field.
+I tried 2 different images and tried to enhance them in photoshop. I wasnt super happy with how they turned out but it works for now.
+
+I wanted a stadium to surround the field. So I checked the the Unity Store and Yeah.... no. I am not paying 100-200$ for this. So I build my own Stadium. It looks like Minecraft... but from a far? We call that immersion.
+
+Next up was fixing some of the many gameplay issues. 
+
+IF you missed the goal nothing happened and you had to restart the game. Now i added a barrier for if you miss the goal it still resets the game. I had this print in the console to know this actually worked.
+
+I also fixed the dribbling because before the ball wouldnt even stay in front of the player. i added this bob to the ball too for a while the ball was going into the ground and i dont know if i like it but i fixed it and i am leaving it for now.
+
+Now the hardest part. The Goalie. I kinda went down a path trying to make all the parts of the goalie look good.
+Also my code for the goalie was mostly created with AI and looking back on it now that i understand C# it was horrible!
+
+I added a mesh to the goalie and added some colors the same way i did with the player. I then rewrote most of the KeeperScript and had him on 3 different states. Patroling Reacting and Saving. Which was very broken at first and also messed up all the animations i attempted to add to the game.
+
+I was trying to make animations and Goloves for the goalie but i suck at blender. and i didnt want to spend 1-2 hours on making gloves
+
+So i downloaded this folder of about 50 soccer animations from mimaxo. not sponsored... most of the animations seemed pretty promising though
+Then when ever the goalie moved back and forth he was stuck in the ground...
+which was an ancor point problem and then the animations werent playing correctly which took alot of debugging. Like making sure time looping was on. making a method that detects if the goalie is moving left or right. I also found out that the stadium and field was in '-' units so all my operation on the states were wrong.
+I eventually got the side to side movement working, originally i used lerp then i used the ball position in the x direction to tell which way the goalie was going where if the goalie is moving to negitve units it plays the left animation and vise versa. onece i fixed to operation for the negitive units the goalie was switching to the patrolling state. and looked good moving side to side.
+I also needed a way for my goalie to dive and a colider on the goalie. cause right now its really easy to score... i am like prime pogba out here. So i added diving animations from the folder i downloaded and they worked well. I have it now where a Sin wave is generated and the goalie tracks that. This way the goalie wont be diving at the wrong time.
+
+I also fixed the colider so when you shoot it doesnt bounce off the goalie and go in the goal.
+
+In the future i want to add the goalie catching the ball. Also Let me know in the comments if you think i should leave this camera or switch to a fifa style view camera.
+I plan on adding the goalie rolling out the ball as well as better animations for the player. one day hopefully i will add a skill move in there and some more players.
+
+Id like to add sprinting, shot speed, sound effects
+I hope you all enjoyed peace

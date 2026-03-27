@@ -23,3 +23,10 @@ Then the patrol direction wasnt updating because it was only on patrol so the di
 I had to change the way the goalie knows if he is going to the left or right so he performs the right animation. so instead of the Lerp - the goalie Position which came out to 0 i did the ball position x - the goalie position x. still alot of buggs but i was happy to see all the states working. 
 
 Made it so the Goalie diving animation was actually working and the goalie dove when the ball was to the right or left of him. Had to embed the animation to his feet so he was not playing the diving animaiton and landing in the air but this was actually satisfiying to fix
+
+Had to edit the collider on the goalie
+
+
+PART 3 ==============
+
+Added a ball to the game look at this bar down goal i hit
