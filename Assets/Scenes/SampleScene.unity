@@ -497,6 +497,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 345858808}
+  - component: {fileID: 345858809}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -520,6 +521,28 @@ Transform:
   - {fileID: 1517838961}
   m_Father: {fileID: 2113595563}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &345858809
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345858807}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7cffc70017e484f2195d76aa3dd137ba, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &354046213
 GameObject:
   m_ObjectHideFlags: 0
@@ -3256,6 +3279,7 @@ GameObject:
   - component: {fileID: 1517838960}
   - component: {fileID: 1517838959}
   - component: {fileID: 1517838958}
+  - component: {fileID: 1517838964}
   - component: {fileID: 1517838957}
   - component: {fileID: 1517838962}
   - component: {fileID: 1517838963}
@@ -3288,6 +3312,7 @@ MonoBehaviour:
   maxCharge: 50
   chargeSpeed: 50
   shotLift: 0.3
+  skillcooldown: 1
   ball: {fileID: 786275043}
   powerBar: {fileID: 2056002061}
 --- !u!136 &1517838958
@@ -3442,6 +3467,18 @@ MonoBehaviour:
   m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1517838964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517838956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c4399dfa2ea41968fb76f32fa827f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputManager
 --- !u!1 &1555649159
 GameObject:
   m_ObjectHideFlags: 0

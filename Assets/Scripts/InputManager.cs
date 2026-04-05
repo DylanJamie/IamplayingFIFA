@@ -23,6 +23,10 @@ public class InputManager : MonoBehaviour {
 	// This is because I want to have it on a 'Hold Button' system
 	gamePlayMap.Sprint.started += ctx => controller.Sprinting(true);
         gamePlayMap.Sprint.canceled += ctx => controller.Sprinting(false);
+
+	// Adding SkillMoves to the game
+	// Using performed because we dont hold in a key or button to perform the event
+	gamePlayMap.Skill.performed += ctx => controller.StepOver();
 	
     }
 

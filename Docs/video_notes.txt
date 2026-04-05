@@ -30,3 +30,6 @@ Had to edit the collider on the goalie
 PART 3 ==============
 
 Added a ball to the game look at this bar down goal i hit
+I wanted to make the input system way more simple. SO I implemented the Input Map that I used for My COD Zombies game. There was so Much debugging though. I could not figure out how to implemnt this for some reason.
+Once I got it though and fixed the shooting I was very happy. I then added Sprinting and SHEEEESh my man is fast. I stepped down his speed so It looked normal and wanted to give him an animation for this.
+This next part I knew was going to be tough. That was becaues I wanted to implement a Skill move....

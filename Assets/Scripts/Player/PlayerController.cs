@@ -34,6 +34,10 @@ public class PlayerController : MonoBehaviour
     // Slight Upward angle on shots
     public float shotLift = 0.15f;
 
+    [Header("Skills")]
+    public float skillcooldown = 1f;
+    private float lastSkillTime;
+
     [Header("Reference")]
     // Reference for ball
     public Transform ball;
@@ -151,6 +155,33 @@ public class PlayerController : MonoBehaviour
 	);
     }
 
+    // ----- Skill Moves ------
+    // Step over
+    public void StepOver() {
+	// Cool down make sure you can do the skill
+	if (Time.time < lastSkillTime + skillcooldown || hasShot)
+	    return;
+
+	lastSkillTime = Time.time;
+
+	// Play the Step over animation
+	// make sure the animation is called step over
+	if (anim != null) {
+	    anim.SetTrigger("StepOver");
+	}
+
+	// Add a small speed boost at the end of skill
+	StartCoroutine(SkillSpeedBurst());
+    }
+
+    // Give Player boost after performing the skill
+    private System.Collections.IEnumerator SkillSpeedBurst() {
+	float originalSpeed = moveSpeed;
+	moveSpeed *= 1.5f;
+	yield return new WaitForSeconds(0.5f);
+	moveSpeed = originalSpeed;
+    }
+    
     // ----- Shooting -----
     public void StartCharging() {
 	// begin Charging

@@ -21,7 +21,8 @@ Roll the ball out
 
 PRT 3
 Fix the soccer ball (Done)
-Sprinting 
+Sprinting (Done)
+Sprinting Animation
 Skill Move
 Fix the shooting and the duration to the power bar
 Reaction (Celebration or miss)
