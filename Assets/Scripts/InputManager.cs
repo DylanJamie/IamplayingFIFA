@@ -18,9 +18,12 @@ public class InputManager : MonoBehaviour {
 	// This is the Binding style i used in my COD Zombies game
 	gamePlayMap.Shoot.started += ctx => controller.StartCharging();
         gamePlayMap.Shoot.canceled += ctx => controller.ReleaseShot();
+
+	// Same method as shooting we are going to do Sprinting
+	// This is because I want to have it on a 'Hold Button' system
+	gamePlayMap.Sprint.started += ctx => controller.Sprinting(true);
+        gamePlayMap.Sprint.canceled += ctx => controller.Sprinting(false);
 	
-       	// Gameplay.Pass.performed += ctx => controller.Pass();
-	// Gameplay.Sprint.performed += ctx => controller.Sprint();
     }
 
     // Continuous Movement for the player

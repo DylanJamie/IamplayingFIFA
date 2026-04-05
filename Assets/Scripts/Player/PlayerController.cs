@@ -114,6 +114,18 @@ public class PlayerController : MonoBehaviour
 	}
     }
 
+    // ------ Sprinting ------
+    public void Sprinting(bool isSprinting) {
+	// Later might add energy into the game
+	// If the player is holding the Shift key sprint or increase move speed
+	if (isSprinting == true) {
+	    moveSpeed = 8f;
+	}
+	else if (isSprinting == false) {
+	    moveSpeed = 6f;
+	}
+    }
+    
     // ------ Dribbling ------
     void HandleDribble() {
         // If has shot is false
