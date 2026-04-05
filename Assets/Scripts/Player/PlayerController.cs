@@ -2,6 +2,7 @@
 // MonoBehaviour, Vector3 and Transform
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 // Unities MonoBehaviour behavior Class
 // MonoBehaviour == allows a person to attach the script to a game object
@@ -55,6 +56,10 @@ public class PlayerController : MonoBehaviour
     // Velocity ref for smooth ball movement
     private Vector3 ballVelocity = Vector3.zero;
 
+    // Private variables to store the player movement
+    private PlayerInput _playerInput;
+    private Vector3 _moveInput;
+    
     // ----- Unity Life Cycle ------
     
     // Start Animations
@@ -65,30 +70,34 @@ public class PlayerController : MonoBehaviour
     
     // Update is a Unity function that is run once per frame 
     void Update() {
-	HandleMovement();
-	HandleDribble();
-	HandleShooting();
-	HandleAnimations();
+	if (!hasShot) {
+	    HandleDribble();
+	}
+
+	// Handle the power bar for shooting
+	if (isCharging) {
+	    currentPower += chargeSpeed * Time.deltaTime;
+	    currentPower = Mathf.Clamp(currentPower, 0, maxCharge);
+	    if (powerBar != null)
+		powerBar.value = currentPower / maxCharge;
+	}
     }
 	
     // Handle all the movement for the player
-    void HandleMovement() {
+    public void ProcessMove(Vector2 Input) {
 	// moveX & moveY get the keyboard inputs from the user for Left/Right or Up/Down
         // Returns a value from -1 to 1 based on the input
-        float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
-
         // new Vector3(moveX, 0, moveZ) decides which direction to move
         // inputdir creates a 3 directional movement (x, y, z) and then multiplies it by the speed
         // so if there is (0, 0, 1) * 5 == (0, 0, 5) there is no Y because we only move on the x and z axis
         // Time.delta time gets the time since the last frame Movement * frames = the amount of units needed to move
-        Vector3 inputDir = new Vector3(moveX, 0, moveZ);
+	_moveInput = new Vector3(Input.x, 0, Input.y);
 
         // Rotate the player to face movement direction
         // If the player is moving make them face the direction of the movement
-        if (inputDir.magnitude > 0.1f) {
+        if (_moveInput.magnitude > 0.1f) {
 	    // Smooth Rotatiton toward the movemnt
-	    Quaternion targetRotation = Quaternion.LookRotation(inputDir);
+	    Quaternion targetRotation = Quaternion.LookRotation(_moveInput);
 	    transform.rotation = Quaternion.RotateTowards(
 		transform.rotation,
 		targetRotation,
@@ -96,8 +105,13 @@ public class PlayerController : MonoBehaviour
 	    );
 
 	    // Move the player
-            transform.position += inputDir.normalized * moveSpeed * Time.deltaTime;
+            transform.position += _moveInput.normalized * moveSpeed * Time.deltaTime;
         }
+
+	// Update our animations
+	if (anim != null) {
+	    anim.SetFloat("Speed", _moveInput.magnitude);
+	}
     }
 
     // ------ Dribbling ------
@@ -126,28 +140,23 @@ public class PlayerController : MonoBehaviour
     }
 
     // ----- Shooting -----
-    void HandleShooting() {
+    public void StartCharging() {
 	// begin Charging
-	if (Input.GetKeyDown(KeyCode.Space) && !hasShot) {
+	if (!hasShot) {
 	    isCharging = true;
 	    currentPower = 0f;
 	}
-
+    }
+    
+    // For the shot release
+    public void ReleaseShot() {
 	// Build Power when holding
-	if (isCharging && Input.GetKey(KeyCode.Space)) {
-	    currentPower = Mathf.Clamp(currentPower + chargeSpeed * Time.deltaTime, 0f, maxCharge);
-
-	    if (powerBar != null) {
-		powerBar.value = currentPower / maxCharge;
-	    }
-	}
-
-	// Release and shoot the ball
-	if (Input.GetKeyUp(KeyCode.Space) && isCharging) {
+	if (isCharging) {
 	    isCharging = false;
 	    hasShot = true;
 	    ShootBall(currentPower);
 
+	    // Play the shooting animation
 	    if (anim != null)
 		anim.SetTrigger("Shoot");
 
@@ -156,9 +165,12 @@ public class PlayerController : MonoBehaviour
 		powerBar.value = 0f;
 	}
     }
-
+    
     // Shooting the ball
     void ShootBall(float power) {
+	// Tell the ball to not be attached to the player when he shoots
+	hasShot = true;
+	
 	// Re enable the physics of the ball
 	ballRb.isKinematic = false;
 	ballRb.linearVelocity = Vector3.zero;
