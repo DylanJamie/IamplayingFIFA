@@ -26,6 +26,14 @@ public class GoalManager : MonoBehaviour
     [Header("Effects")]
     public GameObject goalEffect; // this can be a particle, message or canvas
 
+    // Private variables
+    private Rigidbody ballRb;
+
+    // Cache the BallRb
+    void Start() {
+	ballRb = ball.GetComponent<Rigidbody>();
+    }
+    
     // Calls every time a goal is scored
     public void GoalScored()
     {
@@ -72,15 +80,22 @@ public class GoalManager : MonoBehaviour
     }
     
     // Reset the positions function
-    void ResetPositions()
-    {
+    void ResetPositions() {
         // Reset the ball position
         ball.position = ballStartPos.position;
-        Rigidbody ballRb = ball.GetComponent<Rigidbody>();
+	ballRb.linearVelocity = Vector3.zero;
+	ballRb.angularVelocity = Vector3.zero;
+	// This locks the ball until we start to dribble
+	ballRb.isKinematic = true;
 
-        // Reset the player position
-        player.parent.position = playerStartPos.position;
-        Rigidbody playerRb = player.GetComponent<Rigidbody>();
+	// reset the players positon
+	player.position = playerStartPos.position;
+	player.rotation = playerStartPos.rotation;
+	// Rigidbody ballRb = ball.GetComponent<Rigidbody>();
+
+        // // Reset the player position
+        // player.parent.position = playerStartPos.position;
+        // Rigidbody playerRb = player.GetComponent<Rigidbody>();
 
         // Reset the player's shot
         PlayerController pc = player.GetComponent<PlayerController>();

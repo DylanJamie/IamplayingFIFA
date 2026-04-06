@@ -26,7 +26,9 @@ Sprinting Animation (Done)
 Skill Move (Done)
 Better the Animation (Done)
 Bug You cant shoot while running
-Fix the game reset. So when you score or miss the player actually resets. not just gets the ball back
+Fix the game reset. So when you score or miss the player actually resets. not just gets the ball back (Done)
+If you shoot and the goalie saves it or the ball is still in play the player should be able to pick the ball up again
+the ball should roll
 Fix the shooting and the duration to the power bar
 Reaction (Celebration or miss) (Done)
 UI Score Counter
