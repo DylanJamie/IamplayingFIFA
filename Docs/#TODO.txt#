@@ -1,0 +1,36 @@
+=== 3/13/2026 ===
+
+Color the Player (Done)
+Add white lines on the pitch (Done)
+Put some Stadium in the back (Done)
+
+Fix Ball to player Ratio (Done)
+
+When the player misses the game should reset (Done)
+Fix the Dribbling it looks terrible (Done)
+
+Keeper:
+Goalie mesh (Done)
+Fix the States (Done)
+Fix the Side to side in Reaction State (Done)
+Give Goalie a diving animation (Done)
+Make it so the goalie can actually save
+Make sure when the Goalie Catches the ball he scoops it up and the ball is in hands
+Goalie saved it
+Roll the ball out
+
+PRT 3
+Fix the soccer ball (Done)
+Sprinting (Done)
+Sprinting Animation
+Skill Move 
+Fix the shooting and the duration to the power bar
+Reaction (Celebration or miss)
+UI Score Counter
+
+Power bar this should be above the player and look good
+Shot Speed
+Ball Trail
+Ball Kick Sound, hit net, crowd ambient noise
+After Shot the player should not freeze
+

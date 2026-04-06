@@ -13,7 +13,7 @@ public class InputManager : MonoBehaviour {
 	playerInput = new PlayerInput();
 	gamePlayMap = playerInput.GamePlay;
 	controller = GetComponent<PlayerController>();
-
+	
 	// Bind One shot actions
 	// This is the Binding style i used in my COD Zombies game
 	gamePlayMap.Shoot.started += ctx => controller.StartCharging();

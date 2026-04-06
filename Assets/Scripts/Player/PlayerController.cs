@@ -63,6 +63,8 @@ public class PlayerController : MonoBehaviour
     // Private variables to store the player movement
     private PlayerInput _playerInput;
     private Vector3 _moveInput;
+
+    // True or false for the Player Sprinting
     
     // ----- Unity Life Cycle ------
     
@@ -85,6 +87,7 @@ public class PlayerController : MonoBehaviour
 	    if (powerBar != null)
 		powerBar.value = currentPower / maxCharge;
 	}
+
     }
 	
     // Handle all the movement for the player
@@ -221,17 +224,6 @@ public class PlayerController : MonoBehaviour
 
 	Vector3 shotDirection = transform.forward + new Vector3(0f, shotLift, 0f);
 	ballRb.AddForce(shotDirection.normalized * power, ForceMode.Impulse);
-    }
-
-    // ------- Animations ------
-    void HandleAnimations() {
-	if (anim == null) return;
-
-	float moveX = Input.GetAxis("Horizontal");
-	float moveZ = Input.GetAxis("Vertical");
-	float speed = new Vector3(moveX, 0, moveZ).magnitude;
-
-	anim.SetFloat("Speed", speed);
     }
 
     // -------- Public Method -----------
