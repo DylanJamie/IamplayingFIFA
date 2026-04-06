@@ -33,6 +33,12 @@ public class GoalManager : MonoBehaviour
         score++;
         UpdateScoreUI();
 
+	// Trigger the celebration for the player
+	PlayerController pc = player.GetComponent<PlayerController>();
+	if (pc != null) {
+	    pc.PlayCelebration();
+	}
+	
         // show the goal effect
         if (goalEffect != null)
         {
@@ -44,7 +50,7 @@ public class GoalManager : MonoBehaviour
         // Reset the ball and player postion
         Invoke("ResetPositions", 3f);
     }
-
+ 
     // Calls every time the goal is missed
     public void GoalMissed() {
 	// Show missed Text

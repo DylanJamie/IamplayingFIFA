@@ -26,8 +26,9 @@ Sprinting Animation (Done)
 Skill Move (Done)
 Better the Animation (Done)
 Bug You cant shoot while running
+Fix the game reset. So when you score or miss the player actually resets. not just gets the ball back
 Fix the shooting and the duration to the power bar
-Reaction (Celebration or miss) (In progress)
+Reaction (Celebration or miss) (Done)
 UI Score Counter
 
 Power bar this should be above the player and look good

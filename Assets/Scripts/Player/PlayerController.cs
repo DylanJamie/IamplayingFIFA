@@ -239,6 +239,15 @@ public class PlayerController : MonoBehaviour
 	ballRb.AddForce(shotDirection.normalized * power, ForceMode.Impulse);
     }
 
+    // Tell the Player Controller that they scored this way the player can celebrate
+    public void PlayCelebration() {
+	if (anim != null) {
+	    // Trigger so it starts the animation immediately
+	    anim.SetTrigger("GoalCelebration");
+	}
+    }
+
+
     // -------- Public Method -----------
     // Called by the goal manager to rest the player after a goal or miss
     public void ResetShot() {
