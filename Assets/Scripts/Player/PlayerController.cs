@@ -66,6 +66,9 @@ public class PlayerController : MonoBehaviour
 
     // True or false for the Player Sprinting
     private bool _isSprinting = false;
+
+    // Keep track of the time when the user has shot the ball
+    private float lastShotTime;
     
     // ----- Unity Life Cycle ------
     
@@ -76,9 +79,19 @@ public class PlayerController : MonoBehaviour
     }
     
     // Update is a Unity function that is run once per frame 
-    void Update() {
-	if (!hasShot) {
+    void Update() {       
+	// if player has not shot start dribbling
+	if (hasShot == false) {
 	    HandleDribble();
+	} else {
+	    if (hasShot && Time.time > lastShotTime + 0.5f) {
+		// add a small delay before shoot again
+		// check the distance between ball and player
+		float distanceToBall = Vector3.Distance(transform.position, ball.position);
+		if (distanceToBall < 1.2f) {
+		    hasShot = false;
+		}
+	    }
 	}
 
 	// Handle the power bar for shooting
@@ -169,6 +182,18 @@ public class PlayerController : MonoBehaviour
 	    ref ballVelocity,
 	    1f / dribbleSmoothSpeed
 	);
+
+	// Rolling logic while dribbling
+	// since we have kinimatic as true while dribbling. this freezes the balls physics.
+	if (_moveInput.magnitude > 0.1f) {
+	    // calculate how much the ball shour rotate based on movement
+	    // 500f is a multiplier, we can adjust this to make the ball move faster or slower
+	    float multiplier = 150f;
+	    float rollAmount = moveSpeed * Time.deltaTime * 500f;
+
+	    // Rotate the ball around the player's right axis
+	    ball.Rotate(transform.right, rollAmount, Space.World);
+	}
     }
 
     // ----- Skill Moves ------
@@ -229,6 +254,7 @@ public class PlayerController : MonoBehaviour
     void ShootBall(float power) {
 	// Tell the ball to not be attached to the player when he shoots
 	hasShot = true;
+	lastShotTime = Time.time;
 	
 	// Re enable the physics of the ball
 	ballRb.isKinematic = false;
