@@ -22,10 +22,12 @@ Roll the ball out
 PRT 3
 Fix the soccer ball (Done)
 Sprinting (Done)
-Sprinting Animation
-Skill Move
+Sprinting Animation (Done)
+Skill Move (Done)
+Better the Animation (Done)
+Bug You cant shoot while running
 Fix the shooting and the duration to the power bar
-Reaction (Celebration or miss)
+Reaction (Celebration or miss) (In progress)
 UI Score Counter
 
 Power bar this should be above the player and look good
