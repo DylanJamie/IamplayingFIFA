@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _moveInput;
 
     // True or false for the Player Sprinting
+    private bool _isSprinting = false;
     
     // ----- Unity Life Cycle ------
     
@@ -117,12 +118,24 @@ public class PlayerController : MonoBehaviour
 
 	// Update our animations
 	if (anim != null) {
-	    anim.SetFloat("Speed", _moveInput.magnitude);
+	    float visualSpeed = _moveInput.magnitude;
+
+	    // if we are sprinting we boost the float sent to the animator
+	    // This triggers the multiplyer in our inspector
+	    if (_isSprinting && visualSpeed > 0.1f) {
+		visualSpeed *= 1.5f;
+	    }
+
+	    // Actually change the value in speed
+	    anim.SetFloat("Speed", visualSpeed);
 	}
     }
 
     // ------ Sprinting ------
     public void Sprinting(bool isSprinting) {
+	// Store State for sprinting for the animation
+	_isSprinting = isSprinting;
+	
 	// Later might add energy into the game
 	// If the player is holding the Shift key sprint or increase move speed
 	if (isSprinting == true) {
