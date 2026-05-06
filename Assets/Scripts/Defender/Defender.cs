@@ -48,9 +48,13 @@ public class Defender : MonoBehaviour {
 	if (distance > 0.3f) {
 	    Vector3 newPos = transform.position + direction * speed;
 	    newPos.y = transform.position.y;
-	    defender_body.MovePosition(newPos);
 
-	    // defender_body.MovePosition(transform.position + direction * speed * 0.1f);
+	    // Clamp the defender to the field
+	    newPos.x = Mathf.Clamp(newPos.x, -46f, 46f);
+	    newPos.z = Mathf.Clamp(newPos.z, -133f, 0f);
+
+	    // Move to target
+	    defender_body.MovePosition(newPos);
 
 	    // Face the Ball
 	    Quaternion targetRotation = Quaternion.LookRotation(direction);
