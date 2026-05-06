@@ -15,7 +15,7 @@ public class Defender : MonoBehaviour {
     
     // ----- Private State ------
     // For Animations
-    // private Animator anim;
+    private Animator anim;
     private Rigidbody defender_body;
 
     // Start of the game function
@@ -29,7 +29,7 @@ public class Defender : MonoBehaviour {
 
     // Start Animations
     void Start() {
-        // anim = GetComponentInChildren<Animator>();
+        anim = GetComponentInChildren<Animator>();
 	defender_body = GetComponent<Rigidbody>();
     }
 
@@ -46,24 +46,25 @@ public class Defender : MonoBehaviour {
 	
 	// Move to the desired postion based 
 	if (distance > 0.3f) {
-	    // defender_body.MovePosition(transform.position + direction * speed * 0.1f);
-
-	    // Face the Ball
-	    // Quaternion targetRotation = Quaternion.LookRotation(direction);
-	    // transform.rotation = Quaternion.RotateTowards(
-	    // 	transform.rotation,
-	    // 	targetRotation,
-	    // 	Time.deltaTime * 10f
-	    // );
-
 	    Vector3 newPos = transform.position + direction * speed;
 	    newPos.y = transform.position.y;
 	    defender_body.MovePosition(newPos);
+
+	    // defender_body.MovePosition(transform.position + direction * speed * 0.1f);
+
+	    // Face the Ball
+	    Quaternion targetRotation = Quaternion.LookRotation(direction);
+	    transform.rotation = Quaternion.RotateTowards(
+		transform.rotation,
+		targetRotation,
+		5f
+	    );
+
 	}
 
 	// // Animation
-	// if (anim != null) {
-	//     anim.SetFloat("isRunning", distance);
-	// }
+	if (anim != null) {
+	    anim.SetFloat("isRunning", distance);
+	}
     }
 }
