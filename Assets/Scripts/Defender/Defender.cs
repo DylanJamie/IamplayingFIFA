@@ -11,24 +11,12 @@ public class Defender : MonoBehaviour {
     [Header("Reference")]
     // Reference for ball
     public Transform ball;
-    public PlayerController playerController;
-
-    [Header("Patrol")]
-    public Vector3 patrolCenter = new Vector3(-1.0f, 1.3f, -10.3f);
-    public float chaseRange = 6f; 
+    // public PlayerController playerController;
     
     // ----- Private State ------
     // For Animations
     private Animator anim;
     private Rigidbody defender_body;
-    private Rigidbody ballRb;
-
-    // Start Animations
-    void Start() {
-        anim = GetComponentInChildren<Animator>();
-	ballRb = ball.GetComponent<Rigidbody>();
-	defender_body = GetComponent<Rigidbody>();
-    }
 
     // Start of the game function
     void Awake() {
@@ -36,41 +24,25 @@ public class Defender : MonoBehaviour {
 	GameObject b = GameObject.FindGameObjectWithTag("Ball");
 	if (b != null) {
 	    ball = b.transform;
-	}
-
-	GameObject p = GameObject.FindGameObjectWithTag("Player");
-	if (p != null)
-	    playerController = p.GetComponent<PlayerController>();
+	}    
     }
+
+    // Start Animations
+    void Start() {
+        anim = GetComponentInChildren<Animator>();
+	defender_body = GetComponent<Rigidbody>();
+    }
+
 
     // Update is called once per frame
     void Update() {
-	if (ball == null || playerController == null)
+	if (ball == null) {
 	    return;
-
-	// Only chase when the ball has been shot
-	bool ballIsLive = playerController.HasShot;
-	float distToBall = Vector3.Distance(transform.position, ball.position);
-
-	// Variable for the target position for the defender
-	Vector3 targetPos;
-
-	// Chase logic
-	if (ballIsLive && distToBall < chaseRange) {
-	    // Chase the ball
-	    targetPos = ball.position;
-	} else {
-	    // Return to patrol center (penalty spot) when the player is dribbling
-	    targetPos = patrolCenter;
-
 	}
-	
-	// Move Towards the target
-	Vector3 direction = (targetPos - transform.position).normalized;
-	float distance = Vector3.Distance(transform.position, targetPos);
 
-	Debug.Log("dist" + distance);
-	Debug.Log("Target" + targetPos);
+	// Move Towards the target
+	Vector3 direction = (ball.position - transform.position).normalized;
+	float distance = Vector3.Distance(transform.position, ball.position);
 	
 	// Move to the desired postion based 
 	if (distance > 0.3f) {

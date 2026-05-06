@@ -1010,6 +1010,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Defender
   speed: 4
   ball: {fileID: 786275043}
+  playerController: {fileID: 1517838957}
+  patrolCenter: {x: -1, y: 1.3, z: -10.3}
+  chaseRange: 20
 --- !u!1 &606165682
 GameObject:
   m_ObjectHideFlags: 0
