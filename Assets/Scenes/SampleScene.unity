@@ -1010,6 +1010,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Defender
   speed: 0.1
   ball: {fileID: 786275043}
+  playerController: {fileID: 1517838957}
+  dribbleDistance: 0.85
+  dribbleHeight: 0.2
+  dribbleSmoothSpeed: 12
 --- !u!1 &606165682
 GameObject:
   m_ObjectHideFlags: 0

@@ -58,7 +58,7 @@ public class Defender : MonoBehaviour {
 	float distance = Vector3.Distance(transform.position, ball.position);
 	
 	// Move to the desired postion based 
-	if (distance > 0.8f) {
+	if (distance > 1.4f) {
 	    Vector3 newPos = transform.position + direction * speed;
 	    newPos.y = transform.position.y;
 
