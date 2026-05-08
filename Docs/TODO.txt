@@ -39,3 +39,12 @@ Ball Trail
 Ball Kick Sound, hit net, crowd ambient noise
 After Shot the player should not freeze
 
+DEFENDER: (Should have started earlier)
+
+- Need to make it so when ever the defender is dribbling for 3 sec reset.
+- Or if it hits off the defender and goes out. it should reset.
+- add tackle animation.
+- Add Patrolling (The defender should be only be full sprinting sometimes)
+- Make the player sprint a bit more slow and add a energy bar.
+
+

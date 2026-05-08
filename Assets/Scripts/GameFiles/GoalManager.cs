@@ -11,9 +11,13 @@ public class GoalManager : MonoBehaviour
     public Transform ball;
     // Assign the player inspector
     public Transform player;
+    public Transform defender;
+    
     // The ball Start pos and player start pos
     public Transform ballStartPos;
     public Transform playerStartPos;
+    public Transform defenderStartPos;
+    
     // UI Text that Displays Score
     public Text scoreText;
 
@@ -72,6 +76,19 @@ public class GoalManager : MonoBehaviour
 	Invoke("ResetPositions", 3f);
     }
 
+    // Calls Every time the Defender Steals the ball
+    public void BallSteal() {
+	// Adding a Ball Stolen
+	if (missText != null) {
+	    missText.text = "Tackled!";
+	    missText.gameObject.SetActive(true);
+	    Invoke("HideMissText", 2f);
+	}
+
+	// Reset after 3 sec
+	Invoke("ResetPositions", 3f);
+    }
+
     // Hide the miss text message
     void HideMissText() {
 	if (missText != null) {
@@ -99,10 +116,22 @@ public class GoalManager : MonoBehaviour
 
         // Reset the player's shot
         PlayerController pc = player.GetComponent<PlayerController>();
-        if (pc != null)
-        {
+        if (pc != null) {
             pc.ResetShot();
         }
+
+	// Reset the Defender
+	if (defender != null && defenderStartPos != null) {
+	    defender.position = defenderStartPos.position;
+	    defender.rotation = defenderStartPos.rotation;
+
+	    // Reset Velovity of Defender
+	    Rigidbody defRb = defender.GetComponent<Rigidbody>();
+	    if (defRb != null) {
+		defRb.linearVelocity = Vector3.zero;
+		defRb.angularVelocity = Vector3.zero;
+	    }
+	}	
     }
 
     //  Update the score

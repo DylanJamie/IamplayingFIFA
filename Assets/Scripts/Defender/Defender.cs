@@ -19,12 +19,16 @@ public class Defender : MonoBehaviour {
     // How smooth the ball follows the player (Higher this value the Snappier)
     public float dribbleSmoothSpeed = 12f;
 
+    // Goal manager
+    public GoalManager goalManager;
+    
     // ----- Private State ------
     // For Animations
     private Animator anim;
     private Rigidbody defender_body;
     private Rigidbody ballRb;
     private Vector3 ballVelocity;
+    private bool isResetting = false;
     
     // Start of the game function
     void Awake() {
@@ -84,6 +88,12 @@ public class Defender : MonoBehaviour {
 		}
 	} else {
 	    // Tackling logic
+
+	    if (isResetting == false) {
+		isResetting = true;
+		goalManager.BallSteal();
+	    }
+	    
 	    // Tell the player script they lost the
 	    // use the reference to the Player controller
 	    if (playerController.HasShot == false) {
