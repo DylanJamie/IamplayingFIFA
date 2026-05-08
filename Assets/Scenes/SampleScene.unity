@@ -144,7 +144,7 @@ Transform:
   m_GameObject: {fileID: 76409537}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.23, y: 1.3, z: -10.62806}
+  m_LocalPosition: {x: 0, y: 0, z: -10.62806}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -610,10 +610,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GoalManager
   ball: {fileID: 786275043}
   player: {fileID: 1517838961}
-  defender: {fileID: 0}
+  defender: {fileID: 445881753}
   ballStartPos: {fileID: 1813556428}
   playerStartPos: {fileID: 2092575532}
-  defenderStartPos: {fileID: 0}
+  defenderStartPos: {fileID: 76409538}
   scoreText: {fileID: 0}
   missText: {fileID: 0}
   score: 0

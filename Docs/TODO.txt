@@ -45,6 +45,4 @@ DEFENDER: (Should have started earlier)
 - Or if it hits off the defender and goes out. it should reset.
 - add tackle animation.
 - Add Patrolling (The defender should be only be full sprinting sometimes)
-- Make the player sprint a bit more slow and add a energy bar.
-
-
+- (Later Video)  Make the player sprint a bit more slow and add a energy bar.

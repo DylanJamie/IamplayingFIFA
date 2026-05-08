@@ -126,10 +126,10 @@ public class GoalManager : MonoBehaviour
 	    defender.rotation = defenderStartPos.rotation;
 
 	    // Reset Velovity of Defender
-	    Rigidbody defRb = defender.GetComponent<Rigidbody>();
-	    if (defRb != null) {
-		defRb.linearVelocity = Vector3.zero;
-		defRb.angularVelocity = Vector3.zero;
+	    // Rigidbody defRb = defender.GetComponent<Rigidbody>();
+	    Defender defScript = defender.GetComponent<Defender>();
+	    if (defScript != null) {
+		defScript.ResetDefender();
 	    }
 	}	
     }

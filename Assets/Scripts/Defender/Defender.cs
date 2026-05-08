@@ -53,7 +53,7 @@ public class Defender : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-	if (ball == null || playerController == null) {
+	if (ball == null || playerController == null || isResetting == true) {
 	    return;
 	}
 
@@ -63,7 +63,7 @@ public class Defender : MonoBehaviour {
 	
 	// Move to the desired postion based 
 	if (distance > 1.4f) {
-	    Vector3 newPos = transform.position + direction * speed;
+	    Vector3 newPos = transform.position + direction * speed; // Time.deltaTime;
 	    newPos.y = transform.position.y;
 
 	    // Clamp the defender to the field
@@ -86,42 +86,64 @@ public class Defender : MonoBehaviour {
 			5f
 		    );
 		}
+	    
+	    // Animate the running
+	    if (anim != null) {
+		anim.SetFloat("isRunning", 1.0f);
+	    }
+	    
 	} else {
-	    // Tackling logic
+	    // Tackling Success
+	    TackleBall();
+	}
+    }
 
-	    if (isResetting == false) {
-		isResetting = true;
+    // Tackling Logic
+    void TackleBall() {
+	if (isResetting == false) {
+	    isResetting = true;
+	
+	    // Tell the player that they lost the ball
+		playerController.ResetShot();
+
+	    // Tell the Goal manager to Start the reset
+	    if (goalManager != null) {
 		goalManager.BallSteal();
 	    }
-	    
-	    // Tell the player script they lost the
-	    // use the reference to the Player controller
-	    if (playerController.HasShot == false) {
-		playerController.ResetShot();
-	    }
-
-	    if (ballRb != null) {
-		// Freeze the ball Physics while dribbling so the ball does not roll away
-		ballRb.isKinematic = true;
-	    }
-	    
-	    // Move the ball to the Defendered feet
-	    Vector3 targetPos = transform.position + transform.forward * dribbleDistance + transform.right * 0.2f + Vector3.up * dribbleHeight;
-
-	    // Noe ref ball was missing, use a dummy vector
-	    // Smooth Damp for natural ball movement that lags slightly behind the player (You can define a velocity at the top)
-	    ball.position = Vector3.SmoothDamp(
-		ball.position,
-		targetPos,
-		ref ballVelocity,
-		1f / dribbleSmoothSpeed
-	    );
-
 	}
-	    
-	// // Animation
+
+	// Keep the ball at feet duing the 3 sec
+	if (ballRb != null) {
+	    ballRb.isKinematic = true;
+	}
+	
+	// Move the ball to the Defendered feet
+	Vector3 targetPos = transform.position + transform.forward * dribbleDistance + transform.right * 0.2f + Vector3.up * dribbleHeight;
+
+	// Noe ref ball was missing, use a dummy vector
+	// Smooth Damp for natural ball movement that lags slightly behind the player (You can define a velocity at the top)
+	ball.position = Vector3.SmoothDamp(
+	    ball.position,
+	    targetPos,
+	    ref ballVelocity,
+	    1f / dribbleSmoothSpeed
+	);
+
+	// Animate the running
 	if (anim != null) {
-	    anim.SetFloat("isRunning", distance);
+	    anim.SetFloat("isRunning", 0.0f);
+	}
+    }
+
+    // Called by GoalManger.Reset Positions
+    public void ResetDefender() {
+	isResetting = false;
+	ballVelocity = Vector3.zero;
+
+	// Clear the Physics
+	if (defender_body != null) {
+	    defender_body.linearVelocity = Vector3.zero;
+	    defender_body.angularVelocity = Vector3.zero;
 	}
     }
 }
