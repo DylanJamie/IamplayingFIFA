@@ -4,8 +4,9 @@ using UnityEngine;
 // using unity monobehavior
 public class Defender : MonoBehaviour {
     // Difficulty
-    [Header("Difficulty")]
-    public float speed = 0.05f;
+    [Header("Movement Settings")]
+    public float baseSpeed = 3f;
+    public float maxSpeed = 6f;
 
     // References to obj in the game
     [Header("Reference")]
@@ -21,7 +22,7 @@ public class Defender : MonoBehaviour {
 
     // Goal manager
     public GoalManager goalManager;
-    
+	
     // ----- Private State ------
     // For Animations
     private Animator anim;
@@ -57,13 +58,31 @@ public class Defender : MonoBehaviour {
 	    return;
 	}
 
-	// Move Towards the target
+	// Distance to the player
+	float distanceToPlayer = Vector3.Distance(transform.position, playerController.transform.position);
 	Vector3 direction = (ball.position - transform.position).normalized;
-	float distance = Vector3.Distance(transform.position, ball.position);
+	float currentSpeed = baseSpeed;
+
+	// Check if the player is closer to the goal than the defender
+	if (ball.position.z > transform.position.z) {
+	    currentSpeed = maxSpeed;
+	} else {
+	    // gratually speed up
+	    // Calculate the persentage of how close to the player
+	    float speedFactor = 1f - (distanceToPlayer / 10f);
+	    speedFactor = Mathf.Clamp01(speedFactor); // Stops negitve values
+	    currentSpeed = Mathf.Lerp(baseSpeed, maxSpeed, speedFactor);
+	}
+	
+	Debug.Log("Speed " + currentSpeed);
+	
+		
+	// Apply the movement 
+	float distanceToball = Vector3.Distance(transform.position, ball.position);
 	
 	// Move to the desired postion based 
-	if (distance > 1.4f) {
-	    Vector3 newPos = transform.position + direction * speed; // Time.deltaTime;
+	if (distanceToball > 1.4f) {
+	    Vector3 newPos = transform.position + direction * currentSpeed; // Time.deltaTime;
 	    newPos.y = transform.position.y;
 
 	    // Clamp the defender to the field
@@ -78,14 +97,14 @@ public class Defender : MonoBehaviour {
 	    lookDir.y = 0;
 
 	    if (lookDir != Vector3.zero) {
-		    // Face the Ball
-		    Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-		    transform.rotation = Quaternion.RotateTowards(
-			transform.rotation,
-			targetRotation,
-			5f
-		    );
-		}
+		// Face the Ball
+		Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+		transform.rotation = Quaternion.RotateTowards(
+		    transform.rotation,
+		    targetRotation,
+		    5f
+		);
+	    }
 	    
 	    // Animate the running
 	    if (anim != null) {
@@ -102,7 +121,7 @@ public class Defender : MonoBehaviour {
     void TackleBall() {
 	if (isResetting == false) {
 	    isResetting = true;
-	
+	    
 	    // Tell the player that they lost the ball
 	    playerController.SetPossession(false);
 

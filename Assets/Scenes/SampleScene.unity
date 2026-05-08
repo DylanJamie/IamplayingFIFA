@@ -895,10 +895,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!23 &445881751
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1010,7 +1010,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d3ad6b4a7064e0dbe33475f292f441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Defender
-  speed: 0.1
+  baseSpeed: 0.05
+  maxSpeed: 0.1
   ball: {fileID: 786275043}
   playerController: {fileID: 1517838957}
   dribbleDistance: 0.85
@@ -2125,6 +2126,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e30f2d05e0278462ba836d77b1e2354b, type: 2}
+    - target: {fileID: 5866666021909216657, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
