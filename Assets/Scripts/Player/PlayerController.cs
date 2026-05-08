@@ -54,6 +54,9 @@ public class PlayerController : MonoBehaviour
     private bool isCharging = false;
     private float currentPower = 0f;
 
+    // Is the player being tackled
+    private bool isBeingTackled = false;
+    
     // used to smoothe ball bob while dribbling
     private float bobTimer = 0f;
 
@@ -80,8 +83,8 @@ public class PlayerController : MonoBehaviour
     
     // Update is a Unity function that is run once per frame 
     void Update() {       
-	// if player has not shot start dribbling
-	if (hasShot == false) {
+	// if player has not shot or is not being tackled start dribbling
+	if (hasShot == false && isBeingTackled == false) {
 	    HandleDribble();
 	} else {
 	    if (hasShot && Time.time > lastShotTime + 0.5f) {
@@ -273,12 +276,31 @@ public class PlayerController : MonoBehaviour
 	}
     }
 
+    // Does this player have possetion of the ball
+    public void SetPossession(bool hasPossession) {
+	// if this player loses the ball we are being tackled
+	// ! flips the opperator from true to false and false to true
+	isBeingTackled = !hasPossession;
 
+	//
+	if (hasPossession == false) {
+	    // Immediatly stop deribbling phusics so the ball can move more freely to the defender
+	    if (ballRb != null) {
+		ballRb.isKinematic = false;
+	    }
+
+	    // Reset Movement related values so the ball does not teleport back to the player
+	    ballVelocity = Vector3.zero;
+	    bobTimer = 0f;
+	}			    
+    }
+    
     // -------- Public Method -----------
     // Called by the goal manager to rest the player after a goal or miss
     public void ResetShot() {
 	hasShot = false;
 	isCharging = false;
+	isBeingTackled = false;
 	currentPower = 0f;
 	bobTimer = 0f;
 	ballVelocity = Vector3.zero;

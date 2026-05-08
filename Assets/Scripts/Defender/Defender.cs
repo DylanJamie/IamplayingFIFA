@@ -104,7 +104,7 @@ public class Defender : MonoBehaviour {
 	    isResetting = true;
 	
 	    // Tell the player that they lost the ball
-		playerController.ResetShot();
+	    playerController.SetPossession(false);
 
 	    // Tell the Goal manager to Start the reset
 	    if (goalManager != null) {
