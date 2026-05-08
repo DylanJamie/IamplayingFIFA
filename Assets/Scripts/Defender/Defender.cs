@@ -69,13 +69,19 @@ public class Defender : MonoBehaviour {
 	    // Move to target
 	    defender_body.MovePosition(newPos);
 
-	    // Face the Ball
-	    Quaternion targetRotation = Quaternion.LookRotation(direction);
-	    transform.rotation = Quaternion.RotateTowards(
-		transform.rotation,
-		targetRotation,
-		5f
-	    );
+	    // lock so defeder only rotates on Y axis
+	    Vector3 lookDir = direction;
+	    lookDir.y = 0;
+
+	    if (lookDir != Vector3.zero) {
+		    // Face the Ball
+		    Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+		    transform.rotation = Quaternion.RotateTowards(
+			transform.rotation,
+			targetRotation,
+			5f
+		    );
+		}
 	} else {
 	    // Tackling logic
 	    // Tell the player script they lost the
