@@ -72,6 +72,13 @@ public class PlayerController : MonoBehaviour
 
     // Keep track of the time when the user has shot the ball
     private float lastShotTime;
+
+    // ----- Sounds -----
+    [Header("Sounds")]
+    public AudioClip dribble_sound;
+    public AudioClip shoot_sound;
+
+    private AudioSource audio_source;
     
     // ----- Unity Life Cycle ------
     
@@ -79,6 +86,9 @@ public class PlayerController : MonoBehaviour
     void Start() {
         anim = GetComponentInChildren<Animator>();
 	ballRb = ball.GetComponent<Rigidbody>();
+
+	// add the audio source
+	audio_source = GetComponent<AudioSource>();
     }
     
     // Update is a Unity function that is run once per frame 
@@ -247,6 +257,9 @@ public class PlayerController : MonoBehaviour
 	    if (anim != null)
 		anim.SetTrigger("Shoot");
 
+	    // Shooting Sound
+	    audio_source.PlayOneShot(shoot_sound);
+	    
 	    // Reset the Power Bar
 	    if (powerBar != null)
 		powerBar.value = 0f;
