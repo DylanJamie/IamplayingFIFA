@@ -1930,6 +1930,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BallSoundHandler
   ballHitSound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
+  netSound: {fileID: 0}
+  postSound: {fileID: 0}
 --- !u!82 &786275045
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2777,7 +2779,7 @@ GameObject:
   - component: {fileID: 1055201215}
   m_Layer: 0
   m_Name: Frame
-  m_TagString: Untagged
+  m_TagString: Post
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2886,7 +2888,7 @@ GameObject:
   - component: {fileID: 1133143741}
   m_Layer: 0
   m_Name: Net
-  m_TagString: Untagged
+  m_TagString: Net
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3696,7 +3698,7 @@ MonoBehaviour:
   ball: {fileID: 786275043}
   powerBar: {fileID: 2056002061}
   dribble_sound: {fileID: 0}
-  shoot_sound: {fileID: 0}
+  shoot_sound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
   footstep_sound: {fileID: 8300000, guid: c2ec4b13422bc4ddba642fa5a83db5c4, type: 3}
 --- !u!136 &1517838958
 CapsuleCollider:

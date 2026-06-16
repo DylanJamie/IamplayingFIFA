@@ -6,6 +6,9 @@ using UnityEngine;
 public class BallSoundHandler : MonoBehaviour {
     // audio clips and sources
     public AudioClip ballHitSound;
+    public AudioClip netSound;
+    public AudioClip postSound;
+    
     private AudioSource audioSource;
 
     void Start() {
@@ -14,9 +17,14 @@ public class BallSoundHandler : MonoBehaviour {
 
     // when the ball hits anything we play a soccer ball sound
     void OnCollisionEnter(Collision collision) {
-	Debug.Log("Ball Hit Something: " + collision.relativeVelocity.magnitude);
 	if (collision.relativeVelocity.magnitude > 2f) {
-	    audioSource.PlayOneShot(ballHitSound);
+	    if (collision.gameObject.CompareTag("Net")) {
+		audioSource.PlayOneShot(netSound);
+	    } else if (collision.gameObject.CompareTag("Post")) {
+		audioSource.PlayOneShot(postSound);
+	    } else {
+		audioSource.PlayOneShot(ballHitSound);
+	    }
 	}
     }
 }

@@ -79,6 +79,10 @@ public class PlayerController : MonoBehaviour
     public AudioClip shoot_sound;
     public AudioClip footstep_sound;
 
+    // Cooldown so the footsteps dont overlap
+    private float lastFootstepTime = 0f;
+    public float footstepCooldown = 0.3f;
+    
     private AudioSource audio_source;
     
     // ----- Unity Life Cycle ------
@@ -93,7 +97,10 @@ public class PlayerController : MonoBehaviour
     }
     
     // Update is a Unity function that is run once per frame 
-    void Update() {       
+    void Update() {
+	// Play the sound for player walking
+	PlayFootstepSound();
+	
 	// if player has not shot or is not being tackled start dribbling
 	if (hasShot == false && isBeingTackled == false) {
 	    HandleDribble();
@@ -290,6 +297,18 @@ public class PlayerController : MonoBehaviour
 	}
     }
 
+    // Play the footsteps for the player
+    public void PlayFootstepSound() {
+	// Play the sound for walking forward // Needs to be Fixed chatttt
+	if (_moveInput.magnitude > 0.1f) {
+	    if (Time.time >= lastFootstepTime + footstepCooldown) {
+		audio_source.PlayOneShot(footstep_sound);
+		lastFootstepTime = Time.time;
+	    }
+	}
+    }
+
+    
     // Does this player have possetion of the ball
     public void SetPossession(bool hasPossession) {
 	// if this player loses the ball we are being tackled
@@ -307,14 +326,6 @@ public class PlayerController : MonoBehaviour
 	    ballVelocity = Vector3.zero;
 	    bobTimer = 0f;
 	}			    
-    }
-
-    // Player Footsteps sounds
-    public void PlayFootstepSound() {
-	// _moveInput.magnitude checks if the animation is still running but the player is not moving
-	if (footstep_sound != null && _moveInput.magnitude > 0.1f) {
-	    audio_source.PlayOneShot(footstep_sound);
-	}
     }
     
     // -------- Public Method -----------
