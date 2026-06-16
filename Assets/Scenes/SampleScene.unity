@@ -1032,7 +1032,7 @@ GameObject:
   - component: {fileID: 606165683}
   m_Layer: 0
   m_Name: CrossBar
-  m_TagString: Untagged
+  m_TagString: Post
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1930,8 +1930,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BallSoundHandler
   ballHitSound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
-  netSound: {fileID: 0}
-  postSound: {fileID: 0}
+  netSound: {fileID: 8300000, guid: 7f69e9e53f9094aa9afd2d5b13d5917c, type: 3}
+  postSound: {fileID: 8300000, guid: cf7f1e3d143f24c34a3804dc38207377, type: 3}
+  NetsoundCooldown: 1
 --- !u!82 &786275045
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2886,6 +2887,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1133143741}
+  - component: {fileID: 1133143742}
   m_Layer: 0
   m_Name: Net
   m_TagString: Net
@@ -2909,6 +2911,28 @@ Transform:
   - {fileID: 1571022222}
   m_Father: {fileID: 2013576927}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1133143742
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133143740}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &1175383481
 GameObject:
   m_ObjectHideFlags: 0
@@ -3700,6 +3724,7 @@ MonoBehaviour:
   dribble_sound: {fileID: 0}
   shoot_sound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
   footstep_sound: {fileID: 8300000, guid: c2ec4b13422bc4ddba642fa5a83db5c4, type: 3}
+  footstepCooldown: 0.3
 --- !u!136 &1517838958
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4100,7 +4125,7 @@ GameObject:
   - component: {fileID: 1563517948}
   m_Layer: 0
   m_Name: RightPost
-  m_TagString: Untagged
+  m_TagString: Post
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4282,7 +4307,7 @@ GameObject:
   - component: {fileID: 1571022223}
   m_Layer: 0
   m_Name: NetGenerator
-  m_TagString: Untagged
+  m_TagString: Net
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4338,7 +4363,7 @@ GameObject:
   - component: {fileID: 1618802130}
   m_Layer: 0
   m_Name: LeftPost
-  m_TagString: Untagged
+  m_TagString: Post
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5181,7 +5206,7 @@ GameObject:
   - component: {fileID: 2013576927}
   m_Layer: 0
   m_Name: Goal
-  m_TagString: Untagged
+  m_TagString: Post
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

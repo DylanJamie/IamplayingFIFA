@@ -8,6 +8,10 @@ public class BallSoundHandler : MonoBehaviour {
     public AudioClip ballHitSound;
     public AudioClip netSound;
     public AudioClip postSound;
+
+    // Net sound cooldown
+    private float lastGoal = -10f;
+    public float NetsoundCooldown = 1.0f;
     
     private AudioSource audioSource;
 
@@ -15,15 +19,26 @@ public class BallSoundHandler : MonoBehaviour {
 	audioSource = GetComponent<AudioSource>();
     }
 
-    // when the ball hits anything we play a soccer ball sound
     void OnCollisionEnter(Collision collision) {
+	// If the magnitude is greater than 2 play a sound
 	if (collision.relativeVelocity.magnitude > 2f) {
-	    if (collision.gameObject.CompareTag("Net")) {
-		audioSource.PlayOneShot(netSound);
-	    } else if (collision.gameObject.CompareTag("Post")) {
+	    GameObject hit = collision.gameObject;
+
+	    // did it hit the post or just the ground or defender/goalie
+	    if (hit.CompareTag("Post")) {
 		audioSource.PlayOneShot(postSound);
 	    } else {
 		audioSource.PlayOneShot(ballHitSound);
+	    }
+	}
+    }
+
+    // Trigger if it hits the net
+    void OnTriggerEnter(Collider other) {	
+	if (other.CompareTag("Net")) {
+	    if (Time.time >= lastGoal + NetsoundCooldown) {
+		audioSource.PlayOneShot(netSound);
+		lastGoal = Time.time;
 	    }
 	}
     }
