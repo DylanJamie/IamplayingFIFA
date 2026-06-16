@@ -73,9 +73,6 @@ public class Defender : MonoBehaviour {
 	    speedFactor = Mathf.Clamp01(speedFactor); // Stops negitve values
 	    currentSpeed = Mathf.Lerp(baseSpeed, maxSpeed, speedFactor);
 	}
-	
-	Debug.Log("Speed " + currentSpeed);
-	
 		
 	// Apply the movement 
 	float distanceToball = Vector3.Distance(transform.position, ball.position);

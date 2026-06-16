@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
     [Header("Sounds")]
     public AudioClip dribble_sound;
     public AudioClip shoot_sound;
+    public AudioClip footstep_sound;
 
     private AudioSource audio_source;
     
@@ -306,6 +307,14 @@ public class PlayerController : MonoBehaviour
 	    ballVelocity = Vector3.zero;
 	    bobTimer = 0f;
 	}			    
+    }
+
+    // Player Footsteps sounds
+    public void PlayFootstepSound() {
+	// _moveInput.magnitude checks if the animation is still running but the player is not moving
+	if (footstep_sound != null && _moveInput.magnitude > 0.1f) {
+	    audio_source.PlayOneShot(footstep_sound);
+	}
     }
     
     // -------- Public Method -----------
