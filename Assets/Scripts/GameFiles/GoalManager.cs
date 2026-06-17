@@ -60,7 +60,7 @@ public class GoalManager : MonoBehaviour
         }
 
         // Reset the ball and player postion
-        Invoke("ResetPositions", 3f);
+        Invoke("ResetPositions", 6f);
     }
  
     // Calls every time the goal is missed
@@ -73,7 +73,7 @@ public class GoalManager : MonoBehaviour
 	}
 	
 	// Reset the player and ball poistion after 3 seconds
-	Invoke("ResetPositions", 3f);
+	Invoke("ResetPositions", 6f);
     }
 
     // Calls Every time the Defender Steals the ball
@@ -86,7 +86,7 @@ public class GoalManager : MonoBehaviour
 	}
 
 	// Reset after 3 sec
-	Invoke("ResetPositions", 3f);
+	Invoke("ResetPositions", 6f);
     }
 
     // Hide the miss text message
@@ -131,7 +131,10 @@ public class GoalManager : MonoBehaviour
 	    if (defScript != null) {
 		defScript.ResetDefender();
 	    }
-	}	
+	}
+
+	// Reset the Player Celebration
+	pc._isCelebrating = false;
     }
 
     //  Update the score

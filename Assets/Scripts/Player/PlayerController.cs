@@ -73,6 +73,9 @@ public class PlayerController : MonoBehaviour
     // Keep track of the time when the user has shot the ball
     private float lastShotTime;
 
+    // Player is celebrating
+    public bool _isCelebrating = false;
+    
     // ----- Sounds -----
     [Header("Sounds")]
     public AudioClip dribble_sound;
@@ -236,6 +239,14 @@ public class PlayerController : MonoBehaviour
 	StartCoroutine(SkillSpeedBurst());
     }
 
+    // Play the sui celebration
+    public void PlaySuiCelebration() {
+	// if the player is in the celebration allow him to hit the sui
+	if (_isCelebrating == true) {
+	    anim.SetTrigger("Sui");
+	}
+    }
+    
     // Give Player boost after performing the skill
     private System.Collections.IEnumerator SkillSpeedBurst() {
 	float originalSpeed = moveSpeed;
@@ -291,6 +302,8 @@ public class PlayerController : MonoBehaviour
 
     // Tell the Player Controller that they scored this way the player can celebrate
     public void PlayCelebration() {
+	_isCelebrating = true;
+	
 	if (anim != null) {
 	    // Trigger so it starts the animation immediately
 	    anim.SetTrigger("GoalCelebration");

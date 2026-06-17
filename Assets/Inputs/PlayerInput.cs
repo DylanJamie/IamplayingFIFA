@@ -163,6 +163,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sui_Celebration"",
+                    ""type"": ""Button"",
+                    ""id"": ""d7f06aef-3183-41f8-adcf-f5b1286e24e2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -405,6 +414,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Skill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f0d3e528-7e54-4a2c-8aa4-4d80e6062286"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sui_Celebration"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1000,6 +1020,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_GamePlay_Ball_Roll_Right = m_GamePlay.FindAction("Ball_Roll_Right", throwIfNotFound: true);
         m_GamePlay_Shoot = m_GamePlay.FindAction("Shoot", throwIfNotFound: true);
         m_GamePlay_Skill = m_GamePlay.FindAction("Skill", throwIfNotFound: true);
+        m_GamePlay_Sui_Celebration = m_GamePlay.FindAction("Sui_Celebration", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1101,6 +1122,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePlay_Ball_Roll_Right;
     private readonly InputAction m_GamePlay_Shoot;
     private readonly InputAction m_GamePlay_Skill;
+    private readonly InputAction m_GamePlay_Sui_Celebration;
     /// <summary>
     /// Provides access to input actions defined in input action map "GamePlay".
     /// </summary>
@@ -1144,6 +1166,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GamePlay/Skill".
         /// </summary>
         public InputAction @Skill => m_Wrapper.m_GamePlay_Skill;
+        /// <summary>
+        /// Provides access to the underlying input action "GamePlay/Sui_Celebration".
+        /// </summary>
+        public InputAction @Sui_Celebration => m_Wrapper.m_GamePlay_Sui_Celebration;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1194,6 +1220,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Skill.started += instance.OnSkill;
             @Skill.performed += instance.OnSkill;
             @Skill.canceled += instance.OnSkill;
+            @Sui_Celebration.started += instance.OnSui_Celebration;
+            @Sui_Celebration.performed += instance.OnSui_Celebration;
+            @Sui_Celebration.canceled += instance.OnSui_Celebration;
         }
 
         /// <summary>
@@ -1229,6 +1258,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Skill.started -= instance.OnSkill;
             @Skill.performed -= instance.OnSkill;
             @Skill.canceled -= instance.OnSkill;
+            @Sui_Celebration.started -= instance.OnSui_Celebration;
+            @Sui_Celebration.performed -= instance.OnSui_Celebration;
+            @Sui_Celebration.canceled -= instance.OnSui_Celebration;
         }
 
         /// <summary>
@@ -1585,6 +1617,13 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSkill(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Sui_Celebration" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSui_Celebration(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
