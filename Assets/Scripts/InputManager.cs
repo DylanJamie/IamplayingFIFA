@@ -27,6 +27,9 @@ public class InputManager : MonoBehaviour {
 	// Adding SkillMoves to the game
 	// Using performed because we dont hold in a key or button to perform the event
 	gamePlayMap.Skill.performed += ctx => controller.StepOver();
+
+	// Adding Celebrations for the game
+	gamePlayMap.Sui_Celebration.performed += ctx => controller.PlaySuiCelebration();
 	
     }
 
