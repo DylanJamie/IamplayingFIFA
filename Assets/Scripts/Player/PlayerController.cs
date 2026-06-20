@@ -245,6 +245,9 @@ public class PlayerController : MonoBehaviour
 	if (_isCelebrating == true) {
 	    anim.SetTrigger("Sui");
 	}
+
+	// Reset the Speed while animations playing
+	moveSpeed = 0f;
     }
     
     // Give Player boost after performing the skill
@@ -308,6 +311,8 @@ public class PlayerController : MonoBehaviour
 	    // Trigger so it starts the animation immediately
 	    anim.SetTrigger("GoalCelebration");
 	}
+
+	// make speed 0 and disable the controlers
     }
 
     // Play the footsteps for the player

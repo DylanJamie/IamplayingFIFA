@@ -135,6 +135,7 @@ public class GoalManager : MonoBehaviour
 
 	// Reset the Player Celebration
 	pc._isCelebrating = false;
+	pc.moveSpeed = 6f;
     }
 
     //  Update the score
