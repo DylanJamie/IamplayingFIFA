@@ -12,6 +12,7 @@ public class GoalManager : MonoBehaviour
     // Assign the player inspector
     public Transform player;
     public Transform defender;
+    public Transform keeper;
     
     // The ball Start pos and player start pos
     public Transform ballStartPos;
@@ -108,11 +109,6 @@ public class GoalManager : MonoBehaviour
 	// reset the players positon
 	player.position = playerStartPos.position;
 	player.rotation = playerStartPos.rotation;
-	// Rigidbody ballRb = ball.GetComponent<Rigidbody>();
-
-        // // Reset the player position
-        // player.parent.position = playerStartPos.position;
-        // Rigidbody playerRb = player.GetComponent<Rigidbody>();
 
         // Reset the player's shot
         PlayerController pc = player.GetComponent<PlayerController>();
@@ -133,6 +129,14 @@ public class GoalManager : MonoBehaviour
 	    }
 	}
 
+	// Reset the Positions for the Goalie
+	if (keeper != null) {
+	    KeeperController keeperScript = keeper.GetComponent<KeeperController>();
+	    if (keeperScript != null) {
+		keeperScript.ResetKeeper();
+	    }
+	}
+	
 	// Reset the Player Celebration
 	pc._isCelebrating = false;
 	pc.moveSpeed = 6f;
