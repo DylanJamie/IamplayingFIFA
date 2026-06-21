@@ -3546,6 +3546,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 371925039300600528, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.354
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: m_Name
       value: Player_Mesh
@@ -3608,6 +3612,10 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: ee19a00765cd04b4e9d121ecabc488d7, type: 2}
     - target: {fileID: 5866666021909216657, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
       propertyPath: m_UpdateMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+      propertyPath: m_AnimatePhysics
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
@@ -3721,6 +3729,7 @@ MonoBehaviour:
   skillcooldown: 1
   ball: {fileID: 786275043}
   powerBar: {fileID: 2056002061}
+  _isCelebrating: 0
   dribble_sound: {fileID: 0}
   shoot_sound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
   footstep_sound: {fileID: 8300000, guid: c2ec4b13422bc4ddba642fa5a83db5c4, type: 3}

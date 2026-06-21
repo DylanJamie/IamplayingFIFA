@@ -81,7 +81,8 @@ public class PlayerController : MonoBehaviour
     public AudioClip dribble_sound;
     public AudioClip shoot_sound;
     public AudioClip footstep_sound;
-
+    public AudioClip sui_sound;
+    
     // Cooldown so the footsteps dont overlap
     private float lastFootstepTime = 0f;
     public float footstepCooldown = 0.3f;
@@ -248,7 +249,16 @@ public class PlayerController : MonoBehaviour
 
 	// Reset the Speed while animations playing
 	moveSpeed = 0f;
+
+	// Delay the sound by 1.5 sec
+	Invoke("PlaySuiSound", 0.7f);
     }
+
+    // Seprate method to play the sui sound
+    void PlaySuiSound() {
+	// Play Sui sound
+	audio_source.PlayOneShot(sui_sound);
+    }	
     
     // Give Player boost after performing the skill
     private System.Collections.IEnumerator SkillSpeedBurst() {
