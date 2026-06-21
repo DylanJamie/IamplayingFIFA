@@ -3733,6 +3733,7 @@ MonoBehaviour:
   dribble_sound: {fileID: 0}
   shoot_sound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
   footstep_sound: {fileID: 8300000, guid: c2ec4b13422bc4ddba642fa5a83db5c4, type: 3}
+  sui_sound: {fileID: 8300000, guid: dd28e574bb1964b318555516bb3c423f, type: 3}
   footstepCooldown: 0.3
 --- !u!136 &1517838958
 CapsuleCollider:

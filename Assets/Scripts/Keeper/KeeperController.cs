@@ -11,6 +11,9 @@ public class KeeperController : MonoBehaviour {
     public float patrolSpeed = 2.5f;
     // How far left/right the keeper patrols from their start position
     public float patrolRange = 2.5f;
+    // Max Speed (The max Pace the Goalie can travel)
+    public float maxSpeed = 6f;
+
 
     [Header("Reaction")]
     // How close the ball needs to be before the keeper reacts
@@ -159,11 +162,10 @@ public class KeeperController : MonoBehaviour {
     void React() {
         reactionTimer += Time.deltaTime;
 
-	float targetX = 0f;
-	
         if (reactionTimer >= reactionDelay) {
             // Gradually track the balls X, slower than saving to feel natural
-            targetX = Mathf.Lerp(transform.position.x, ball.position.x, Time.deltaTime * 3f);
+            float targetX = Mathf.MoveTowards(transform.position.x, ball.position.x, maxSpeed * Time.deltaTime);
+	    targetX = Mathf.Clamp(targetX, startPosition.x - patrolRange, startPosition.x + patrolRange);
             MoveToX(targetX);
         }
 
