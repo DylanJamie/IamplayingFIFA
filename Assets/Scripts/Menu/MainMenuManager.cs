@@ -11,6 +11,8 @@ public class MainMenuManager : MonoBehaviour {
     public GameObject difficultyPanel;
     public GameObject settingsPanel;
 
+    [Header("Menu Sounds")]
+    
     // Called by the start button
     public void StartGame() {
 	// Match the schene name of the game
