@@ -14,7 +14,6 @@ public class KeeperController : MonoBehaviour {
     // Max Speed (The max Pace the Goalie can travel)
     public float maxSpeed = 6f;
 
-
     [Header("Reaction")]
     // How close the ball needs to be before the keeper reacts
     public float reactDistance = 12f;

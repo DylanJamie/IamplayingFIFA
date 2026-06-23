@@ -611,6 +611,7 @@ MonoBehaviour:
   ball: {fileID: 786275043}
   player: {fileID: 1517838961}
   defender: {fileID: 445881753}
+  keeper: {fileID: 1333571469}
   ballStartPos: {fileID: 1813556428}
   playerStartPos: {fileID: 2092575532}
   defenderStartPos: {fileID: 76409538}
@@ -1259,6 +1260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeeperController
   patrolSpeed: 2.5
   patrolRange: 2.5
+  maxSpeed: 6
   reactDistance: -18
   reactionDelay: 0.2
   saveSpeed: 2
@@ -3301,6 +3303,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1468978907}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1333571468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1333571469}
+  m_Layer: 0
+  m_Name: KeeperStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1333571469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1333571468}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.174}
+  m_LocalScale: {x: 1.5, y: 1.4, z: 1.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1334929345
 GameObject:
@@ -5771,6 +5804,7 @@ SceneRoots:
   - {fileID: 786275043}
   - {fileID: 1813556428}
   - {fileID: 607125727}
+  - {fileID: 1333571469}
   - {fileID: 445881753}
   - {fileID: 76409538}
   - {fileID: 974210361}
