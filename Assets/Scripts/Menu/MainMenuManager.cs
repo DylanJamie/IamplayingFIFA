@@ -10,8 +10,6 @@ public class MainMenuManager : MonoBehaviour {
     [Header("Panels")]
     public GameObject difficultyPanel;
     public GameObject settingsPanel;
-
-    [Header("Menu Sounds")]
     
     // Called by the start button
     public void StartGame() {
