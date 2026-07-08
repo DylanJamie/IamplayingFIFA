@@ -37,6 +37,7 @@ public class KeeperController : MonoBehaviour {
     [Header("References")]
     public Transform ball;
     public PlayerController player;
+    public GoalManager goalManager;
 
     [Header("Animation")]
     public Animator keeperAnimator;
@@ -63,15 +64,35 @@ public class KeeperController : MonoBehaviour {
     private enum KeeperState { Patrolling, Reacting, Saving }
     private KeeperState state = KeeperState.Patrolling;
 
+    // Ball Stealing
+    private Rigidbody ballRb;
+    private Vector3 ballVelocity = Vector3.zero;
+    public float catchRadius = 1.0f;   
+    private bool hasCaughtBall = false;
+    
     // Unity Life Cycle
     void Start() {
         startPosition = transform.position;
+
+	// Grab the ball rigidbody same as defender
+	if (ball != null) {
+	    ballRb = ball.GetComponent<Rigidbody>();
+	}
     }
 
     // Function to update every frame. We need to update the State Every Frame so the Game knows which state the goalie is in
     void Update() {
         UpdateState();
 
+	// Check if player is dribbling too close — steal the ball
+	if (player != null && !player.HasShot && !hasCaughtBall) {
+	    float distanceToPlayer = Vector3.Distance(transform.position, ball.position);
+	    if (distanceToPlayer <= catchRadius) {
+		StealFromPlayer();
+		return;
+	    }
+	}
+	
 	// States for the goalie
         switch (state) {
             case KeeperState.Patrolling: Patrol(); break;
@@ -197,6 +218,13 @@ public class KeeperController : MonoBehaviour {
 	float newX = Mathf.MoveTowards(transform.position.x, shotGuessX, saveSpeed * Time.deltaTime);
         MoveToX(newX);
 
+	// Check if ball is close enough to catch — same pattern as Defender
+	float distanceToBall = Vector3.Distance(transform.position, ball.position);
+	if (distanceToBall <= catchRadius) {
+	    CatchBall();
+	    return;
+	}
+	
 	// Check if the player has reached the ball
 	if (hasSaveResult == false) {
 	    float distanceToGuess = Mathf.Abs(transform.position.x - shotGuessX);
@@ -218,6 +246,41 @@ public class KeeperController : MonoBehaviour {
 	}
     }
 
+    // Steal the ball from the player
+    void StealFromPlayer() {
+	if (hasCaughtBall == false) {
+	    hasCaughtBall = true;
+
+	    // Tell the player they lost the ball
+	    if (player != null) {
+		player.SetPossession(false);
+	    }
+
+	    // Tell GoalManager it was a steal
+	    if (goalManager != null) {
+		goalManager.BallSteal();
+	    }
+	}
+
+	// Lock ball physics
+	if (ballRb != null) {
+	    ballRb.isKinematic = true;
+	}
+
+	// Hold ball at keeper's feet
+	Vector3 targetPos = transform.position
+	    + transform.forward * 0.5f
+	    + transform.right * 0.2f
+	    + Vector3.up * 0.3f;
+
+	ball.position = Vector3.SmoothDamp(
+	    ball.position,
+	    targetPos,
+	    ref ballVelocity,
+	    1f / 12f
+	);
+    }
+    
     // ----------- Helpers -------------
     // Moves the keeper only on the X axis, preserving the Y and Z axis
     void MoveToX(float targetX) {
@@ -228,6 +291,37 @@ public class KeeperController : MonoBehaviour {
         );
     }
 
+    // Catch the ball
+    void CatchBall() {
+	if (hasCaughtBall == false) {
+	    hasCaughtBall = true;
+	    Debug.Log("Keeper caught the ball!");
+	    
+	    // Wire up to GoalManager
+	    if (goalManager != null) {
+		goalManager.OnSave();
+	    }
+	}
+
+	// Lock ball physics same as Defender
+	if (ballRb != null) {
+	    ballRb.isKinematic = true;
+	}
+
+	// Hold ball at keeper's feet
+	Vector3 targetPos = transform.position 
+	    + transform.forward * 0.5f 
+	    + transform.right * 0.2f 
+	    + Vector3.up * 0.3f;
+
+	ball.position = Vector3.SmoothDamp(
+	    ball.position,
+	    targetPos,
+	    ref ballVelocity,
+	    1f / 12f
+	);
+    }
+    
     // Called by GoalManager when resetting positions
     // Resets keeper back to start and clears all state
     public void ResetKeeper() {
@@ -236,11 +330,13 @@ public class KeeperController : MonoBehaviour {
         reactionTimer = 0f;
         hasGuessed = false;
 	hasSaveResult = false;
+	hasCaughtBall = false;
 	canReachBall = false;
         shotGuessX = 0f;
         movementDirection = 1;
+	ballVelocity = Vector3.zero; 
 
-	// reset the animation states
+	// // reset the animation states
 	if (keeperAnimator != null) {
 	    keeperAnimator.SetFloat("Speed", 0f);
 	    keeperAnimator.SetFloat("SaveSpeed", 0f);
@@ -248,5 +344,3 @@ public class KeeperController : MonoBehaviour {
 	}
     }
 }
- 
-    

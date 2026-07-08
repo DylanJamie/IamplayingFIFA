@@ -96,6 +96,18 @@ public class GoalManager : MonoBehaviour
 	    missText.gameObject.SetActive(false);
 	}
     }
+
+    // Called when the keeper makes a save
+    public void OnSave() {
+	if (missText != null) {
+	    missText.text = "Saved!";
+	    missText.gameObject.SetActive(true);
+	    Invoke("HideMissText", 2f);
+	}
+
+	// Reset after delay
+	Invoke("ResetPositions", 4f);
+    }
     
     // Reset the positions function
     void ResetPositions() {

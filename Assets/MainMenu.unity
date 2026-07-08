@@ -692,7 +692,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuManager
   difficultyPanel: {fileID: 0}
   settingsPanel: {fileID: 0}
-  Start_Sound: {fileID: 8300000, guid: 628ce6999a1934e429d33489d5320e27, type: 3}
 --- !u!4 &471221116
 Transform:
   m_ObjectHideFlags: 0
