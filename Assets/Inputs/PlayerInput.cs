@@ -451,7 +451,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3fb95d62-f76d-40ec-8379-386d5f657fd0"",
-                    ""path"": ""<NimbusGamepadHid>/buttonWest"",
+                    ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

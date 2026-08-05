@@ -366,7 +366,7 @@ public class PlayerController : MonoBehaviour
 
 	// Hand the control over to the teammate
 	if (playerSwitcher != null) {
-	    playerSwitcher.SwitchControlTo(teammate);
+	    playerSwitcher.BallReleased(this);
 	}
     }
 	
