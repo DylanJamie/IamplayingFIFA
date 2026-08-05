@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
     // Slight Upward angle on shots
     public float shotLift = 0.15f;
 
+    [Header("Passing")]
+    public float passPower = 12f;
+
     [Header("Skills")]
     public float skillcooldown = 1f;
     private float lastSkillTime;
@@ -75,6 +78,18 @@ public class PlayerController : MonoBehaviour
 
     // Player is celebrating
     public bool _isCelebrating = false;
+
+    // AI Control and runs
+    [Header("AI/Control")]
+    public bool isAIControlled = false;
+    // this will be the other player
+    public PlayerController teammate;
+    public PlayerSwitcher playerSwitcher;
+
+    [Header("AI Supportting Runs")]
+    public float aiRunSpeed = 5f;
+    public float aiSupportDistance = 6f;
+    public float aiLateralOffset = 6f;
     
     // ----- Sounds -----
     [Header("Sounds")]
@@ -102,6 +117,12 @@ public class PlayerController : MonoBehaviour
     
     // Update is a Unity function that is run once per frame 
     void Update() {
+	// AI will skip all the input
+	if (isAIControlled) {
+	    HandleAISupportRun();
+	    return;
+	}
+	
 	// Play the sound for player walking
 	PlayFootstepSound();
 	
@@ -131,6 +152,11 @@ public class PlayerController : MonoBehaviour
 	
     // Handle all the movement for the player
     public void ProcessMove(Vector2 Input) {
+	// Check if it is an AI player
+	if (isAIControlled) {
+	    return;
+	}
+	
 	// moveX & moveY get the keyboard inputs from the user for Left/Right or Up/Down
         // Returns a value from -1 to 1 based on the input
         // new Vector3(moveX, 0, moveZ) decides which direction to move
@@ -171,6 +197,11 @@ public class PlayerController : MonoBehaviour
 
     // ------ Sprinting ------
     public void Sprinting(bool isSprinting) {
+	// Check if it is an AI player
+	if (isAIControlled) {
+	    return;
+	}	
+
 	// Store State for sprinting for the animation
 	_isSprinting = isSprinting;
 	
@@ -187,8 +218,10 @@ public class PlayerController : MonoBehaviour
     // ------ Dribbling ------
     void HandleDribble() {
         // If has shot is false
-        if (hasShot) return;
-
+        if (hasShot) {
+	    return;
+	}
+	    
 	// Freeze the ball Physics while dribbling so the ball does not roll away
 	ballRb.isKinematic = true;
 
@@ -271,7 +304,7 @@ public class PlayerController : MonoBehaviour
     // ----- Shooting -----
     public void StartCharging() {
 	// begin Charging
-	if (!hasShot) {
+	if (isAIControlled || !hasShot) {
 	    isCharging = true;
 	    currentPower = 0f;
 	}
@@ -313,6 +346,31 @@ public class PlayerController : MonoBehaviour
 	ballRb.AddForce(shotDirection.normalized * power, ForceMode.Impulse);
     }
 
+    // Passing the ball to a teammate
+    public void PassBall() {
+	if (isAIControlled || hasShot || teammate == null) {
+	    return;
+	}
+
+	// makes the ball not follow a script and gets the ball ref obj
+	Rigidbody ballRbRef = ball.GetComponent<Rigidbody>();
+	ballRbRef.isKinematic = false;
+
+	// Force and direction
+	Vector3 passDirection = (teammate.transform.position - ball.position);
+	passDirection.y = 0.1f;
+	ballRbRef.AddForce(passDirection.normalized * passPower, ForceMode.Impulse);
+
+	// Set the possession for the current player
+	SetPossession(false);
+
+	// Hand the control over to the teammate
+	if (playerSwitcher != null) {
+	    playerSwitcher.SwitchControlTo(teammate);
+	}
+    }
+	
+    
     // Tell the Player Controller that they scored this way the player can celebrate
     public void PlayCelebration() {
 	_isCelebrating = true;
@@ -354,6 +412,27 @@ public class PlayerController : MonoBehaviour
 	    ballVelocity = Vector3.zero;
 	    bobTimer = 0f;
 	}			    
+    }
+
+    // AI Support Run
+    void HandleAISupportRun() {
+	Vector3 targetPos = teammate.transform.position + teammate.transform.forward * aiSupportDistance + teammate.transform.right * aiLateralOffset;
+
+	// Clamp the teammate between these values
+	targetPos.x = Mathf.Clamp(targetPos.x, -46f, 46f);
+	targetPos.z = Mathf.Clamp(targetPos.z, -133f, 0f);
+
+	// Movetowards the target (transform pos, targetpos, step)
+	transform.position = Vector3.MoveTowards(transform.position, targetPos, aiRunSpeed * Time.deltaTime);
+
+	// calculate the direction that the AI player looks
+	Vector3 look_direction = targetPos - transform.position;
+	look_direction.y = 0f;
+
+	
+	if (look_direction.sqrMagnitude > 0.01f) {
+	    transform.rotation = Quaternion.LookRotation(look_direction);
+	}
     }
     
     // -------- Public Method -----------

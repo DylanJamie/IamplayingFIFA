@@ -1,0 +1,28 @@
+// Teammate.cs
+
+// Unity imports
+using UnityEngine;
+
+// AI Controlled Teammates
+public class TeammateAI : MonoBehaviour {
+    [Header("Movement")]
+    public float runSpeed = 5f;
+
+    // how far ahead the teamate runs ahead of the ball
+    public float supportDistance = 8f;
+
+    // how far to the side of the carrier
+    public float lateralOffset = 6f;
+
+    [Header("Receiving")]
+    public float receiveSpeed = 7f;
+    public float trapDistance = 1.5f;
+
+    [Header("Reference")]
+    public Transform ball;
+    public PlayerController mainPlayer;
+
+    private Rigidbody ballRb;
+    private Vector3 passTargetPos;
+
+    

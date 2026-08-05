@@ -172,6 +172,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pass"",
+                    ""type"": ""Button"",
+                    ""id"": ""b82c9ce9-43f7-4490-a2ac-99f38dec0137"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -282,6 +291,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse;Touch"",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5939016a-373a-4ae5-b7f4-2264d41af01a"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -425,6 +445,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Sui_Celebration"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3fb95d62-f76d-40ec-8379-386d5f657fd0"",
+                    ""path"": ""<NimbusGamepadHid>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pass"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1021,6 +1052,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_GamePlay_Shoot = m_GamePlay.FindAction("Shoot", throwIfNotFound: true);
         m_GamePlay_Skill = m_GamePlay.FindAction("Skill", throwIfNotFound: true);
         m_GamePlay_Sui_Celebration = m_GamePlay.FindAction("Sui_Celebration", throwIfNotFound: true);
+        m_GamePlay_Pass = m_GamePlay.FindAction("Pass", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1123,6 +1155,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePlay_Shoot;
     private readonly InputAction m_GamePlay_Skill;
     private readonly InputAction m_GamePlay_Sui_Celebration;
+    private readonly InputAction m_GamePlay_Pass;
     /// <summary>
     /// Provides access to input actions defined in input action map "GamePlay".
     /// </summary>
@@ -1170,6 +1203,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GamePlay/Sui_Celebration".
         /// </summary>
         public InputAction @Sui_Celebration => m_Wrapper.m_GamePlay_Sui_Celebration;
+        /// <summary>
+        /// Provides access to the underlying input action "GamePlay/Pass".
+        /// </summary>
+        public InputAction @Pass => m_Wrapper.m_GamePlay_Pass;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1223,6 +1260,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Sui_Celebration.started += instance.OnSui_Celebration;
             @Sui_Celebration.performed += instance.OnSui_Celebration;
             @Sui_Celebration.canceled += instance.OnSui_Celebration;
+            @Pass.started += instance.OnPass;
+            @Pass.performed += instance.OnPass;
+            @Pass.canceled += instance.OnPass;
         }
 
         /// <summary>
@@ -1261,6 +1301,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Sui_Celebration.started -= instance.OnSui_Celebration;
             @Sui_Celebration.performed -= instance.OnSui_Celebration;
             @Sui_Celebration.canceled -= instance.OnSui_Celebration;
+            @Pass.started -= instance.OnPass;
+            @Pass.performed -= instance.OnPass;
+            @Pass.canceled -= instance.OnPass;
         }
 
         /// <summary>
@@ -1624,6 +1667,13 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSui_Celebration(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pass" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPass(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
