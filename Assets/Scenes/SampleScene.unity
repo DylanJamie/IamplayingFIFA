@@ -725,6 +725,7 @@ GameObject:
   m_Component:
   - component: {fileID: 354046215}
   - component: {fileID: 354046214}
+  - component: {fileID: 354046216}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -770,6 +771,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &354046216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354046213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46ca690e27214187b4dd6ef9ecbeb85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSwitcher
+  player_1: {fileID: 1517838957}
+  player_2: {fileID: 1415288481}
 --- !u!1 &377752751
 GameObject:
   m_ObjectHideFlags: 0
@@ -3888,7 +3903,7 @@ GameObject:
   - component: {fileID: 1415288479}
   - component: {fileID: 1415288478}
   m_Layer: 0
-  m_Name: PlayerController
+  m_Name: Teammate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4019,7 +4034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: 0}
+  m_Actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -4034,7 +4049,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 
+  m_DefaultActionMap: GamePlay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!54 &1415288480
@@ -4088,12 +4103,12 @@ MonoBehaviour:
   shotLift: 0.3
   passPower: 12
   skillcooldown: 1
-  ball: {fileID: 0}
+  ball: {fileID: 786275043}
   powerBar: {fileID: 2056002061}
   _isCelebrating: 0
   isAIControlled: 0
-  teammate: {fileID: 0}
-  playerSwitcher: {fileID: 0}
+  teammate: {fileID: 1517838957}
+  playerSwitcher: {fileID: 354046216}
   aiRunSpeed: 5
   aiSupportDistance: 6
   aiLateralOffset: 6
@@ -4114,6 +4129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c4399dfa2ea41968fb76f32fa827f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  playerSwitcher: {fileID: 354046216}
 --- !u!136 &1415288483
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4585,8 +4601,8 @@ MonoBehaviour:
   powerBar: {fileID: 2056002061}
   _isCelebrating: 0
   isAIControlled: 0
-  teammate: {fileID: 0}
-  playerSwitcher: {fileID: 0}
+  teammate: {fileID: 1415288481}
+  playerSwitcher: {fileID: 354046216}
   aiRunSpeed: 5
   aiSupportDistance: 6
   aiLateralOffset: 6
@@ -4759,6 +4775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c4399dfa2ea41968fb76f32fa827f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  playerSwitcher: {fileID: 354046216}
 --- !u!82 &1517838965
 AudioSource:
   m_ObjectHideFlags: 0

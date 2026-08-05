@@ -17,6 +17,7 @@ UserSettings/
 *.suo
 *.user
 *.userprefs
+*.blob
 
 # OS files
 .DS_Store
