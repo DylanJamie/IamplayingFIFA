@@ -101,7 +101,7 @@ public class PlayerSwitcher : MonoBehaviour {
     }
 	
     // Called by the goal manager after the posititons are reset to the posetions are returned clean
-    public void ResetPossessionTo(PlayerController player) {
-        SetActive(player);
+    public void ResetPossessionTo() {
+        SetActive(player_1);
     }
 }

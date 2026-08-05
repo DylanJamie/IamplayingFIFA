@@ -785,6 +785,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSwitcher
   player_1: {fileID: 1517838957}
   player_2: {fileID: 1415288481}
+  ball: {fileID: 786275043}
+  possessionDistance: 1.4
+  selfPossessionGrace: 0.4
 --- !u!1 &377752751
 GameObject:
   m_ObjectHideFlags: 0

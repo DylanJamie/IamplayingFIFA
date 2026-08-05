@@ -90,10 +90,15 @@ public class PlayerController : MonoBehaviour
     public float aiRunSpeed = 5f;
     public float aiSupportDistance = 6f;
     public float aiLateralOffset = 6f;
+
+    [Header("Positioning")]
+    // each player's own formation spot
+    public Transform startPosition;
     
     // ----- Sounds -----
     [Header("Sounds")]
     public AudioClip dribble_sound;
+    public AudioClip pass_sound;
     public AudioClip shoot_sound;
     public AudioClip footstep_sound;
     public AudioClip sui_sound;
@@ -368,6 +373,10 @@ public class PlayerController : MonoBehaviour
 	if (playerSwitcher != null) {
 	    playerSwitcher.BallReleased(this);
 	}
+
+	// Shooting Sound
+	audio_source.PlayOneShot(pass_sound);
+	
     }
 	
     
@@ -433,6 +442,17 @@ public class PlayerController : MonoBehaviour
 	if (look_direction.sqrMagnitude > 0.01f) {
 	    transform.rotation = Quaternion.LookRotation(look_direction);
 	}
+    }
+
+    // Resets this player back to its own start position/rotation
+    public void ResetToStart() {
+	if (startPosition != null) {
+	    transform.position = startPosition.position;
+	    transform.rotation = startPosition.rotation;
+	}
+
+	// reuse your existing shot/ball-state reset
+	ResetShot();
     }
     
     // -------- Public Method -----------

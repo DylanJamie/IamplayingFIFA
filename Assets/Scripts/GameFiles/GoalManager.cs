@@ -9,14 +9,16 @@ public class GoalManager : MonoBehaviour
     [Header("References")]
     // Assign the ball inspector
     public Transform ball;
+    public Transform ballStartPos;
+    
+    // One list, holds every player regardless of team size
+    public System.Collections.Generic.List<PlayerController> players;
+
     // Assign the player inspector
-    public Transform player;
     public Transform defender;
     public Transform keeper;
     
     // The ball Start pos and player start pos
-    public Transform ballStartPos;
-    public Transform playerStartPos;
     public Transform defenderStartPos;
     
     // UI Text that Displays Score
@@ -24,6 +26,9 @@ public class GoalManager : MonoBehaviour
 
     // UI Text that tells you a missed shot
     public Text missText;
+
+    // player switcher var
+    public PlayerSwitcher playerSwitcher;
 
     [Header("Settings")]
     public int score = 0;
@@ -47,9 +52,9 @@ public class GoalManager : MonoBehaviour
         UpdateScoreUI();
 
 	// Trigger the celebration for the player
-	PlayerController pc = player.GetComponent<PlayerController>();
-	if (pc != null) {
-	    pc.PlayCelebration();
+	PlayerController scorer = playerSwitcher.ActivePlayer;
+	if (scorer != null) {
+	    scorer.PlayCelebration();
 	}
 	
         // show the goal effect
@@ -118,16 +123,15 @@ public class GoalManager : MonoBehaviour
 	// This locks the ball until we start to dribble
 	ballRb.isKinematic = true;
 
-	// reset the players positon
-	player.position = playerStartPos.position;
-	player.rotation = playerStartPos.rotation;
-
-        // Reset the player's shot
-        PlayerController pc = player.GetComponent<PlayerController>();
-        if (pc != null) {
-            pc.ResetShot();
-        }
-
+	// reset all players
+	foreach (PlayerController pc in players) {
+	    pc.ResetToStart();
+	    pc._isCelebrating = false;
+	    pc.moveSpeed = 6f;
+	}
+	
+	playerSwitcher.ResetPossessionTo();
+	
 	// Reset the Defender
 	if (defender != null && defenderStartPos != null) {
 	    defender.position = defenderStartPos.position;
@@ -148,10 +152,6 @@ public class GoalManager : MonoBehaviour
 		keeperScript.ResetKeeper();
 	    }
 	}
-	
-	// Reset the Player Celebration
-	pc._isCelebrating = false;
-	pc.moveSpeed = 6f;
     }
 
     //  Update the score
