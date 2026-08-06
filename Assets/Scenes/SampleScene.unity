@@ -746,14 +746,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoalManager
   ball: {fileID: 786275043}
-  player: {fileID: 1517838961}
+  ballStartPos: {fileID: 1813556428}
+  players:
+  - {fileID: 1517838957}
+  - {fileID: 1415288481}
   defender: {fileID: 445881753}
   keeper: {fileID: 1333571469}
-  ballStartPos: {fileID: 1813556428}
-  playerStartPos: {fileID: 2092575532}
   defenderStartPos: {fileID: 76409538}
   scoreText: {fileID: 0}
   missText: {fileID: 0}
+  playerSwitcher: {fileID: 354046216}
   score: 0
   goalEffect: {fileID: 0}
 --- !u!4 &354046215
@@ -2304,8 +2306,8 @@ Transform:
   m_GameObject: {fileID: 811437154}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.80041, y: 1.4, z: 0.23584002}
-  m_LocalScale: {x: 8.4875, y: 2.9046483, z: 0.5}
+  m_LocalPosition: {x: -0.80041, y: 1.4, z: 0.23}
+  m_LocalScale: {x: 8.2, y: 2.9046483, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2013576927}
@@ -4115,7 +4117,9 @@ MonoBehaviour:
   aiRunSpeed: 5
   aiSupportDistance: 6
   aiLateralOffset: 6
+  startPosition: {fileID: 1836412802}
   dribble_sound: {fileID: 0}
+  pass_sound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
   shoot_sound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
   footstep_sound: {fileID: 8300000, guid: c2ec4b13422bc4ddba642fa5a83db5c4, type: 3}
   sui_sound: {fileID: 8300000, guid: dd28e574bb1964b318555516bb3c423f, type: 3}
@@ -4588,7 +4592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a4fdf5f871d47548853463f29f7560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 6
+  moveSpeed: 3
   rotationSpeed: 720
   dribbleDistance: 0.85
   dribbleHeight: 0.3
@@ -4606,10 +4610,12 @@ MonoBehaviour:
   isAIControlled: 0
   teammate: {fileID: 1415288481}
   playerSwitcher: {fileID: 354046216}
-  aiRunSpeed: 5
-  aiSupportDistance: 6
-  aiLateralOffset: 6
+  aiRunSpeed: 3
+  aiSupportDistance: 8
+  aiLateralOffset: 8
+  startPosition: {fileID: 2092575532}
   dribble_sound: {fileID: 0}
+  pass_sound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
   shoot_sound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
   footstep_sound: {fileID: 8300000, guid: c2ec4b13422bc4ddba642fa5a83db5c4, type: 3}
   sui_sound: {fileID: 8300000, guid: dd28e574bb1964b318555516bb3c423f, type: 3}
@@ -5536,6 +5542,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1706651035}
   m_CullTransparentMesh: 1
+--- !u!1 &1729471859
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1729471860}
+  m_Layer: 0
+  m_Name: StartPositions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1729471860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729471859}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.88283, y: 0.09, z: -32.56624}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2092575532}
+  - {fileID: 1836412802}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1764762892
 GameObject:
   m_ObjectHideFlags: 0
@@ -5718,6 +5757,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4935240531098310, guid: ec3e8f3ed27e2244caaedaf589590a03, type: 3}
   m_PrefabInstance: {fileID: 1567121251}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1836412801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1836412802}
+  m_Layer: 0
+  m_Name: RW_Start
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1836412802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836412801}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1729471860}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1836776942
 GameObject:
   m_ObjectHideFlags: 0
@@ -6330,7 +6400,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2092575532}
   m_Layer: 0
-  m_Name: PlayerStart
+  m_Name: ST_Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6344,12 +6414,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092575531}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -34.379997}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -11.88283, y: -0.09, z: -1.8137589}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1729471860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2096042613
 PrefabInstance:
@@ -6733,7 +6803,7 @@ SceneRoots:
   - {fileID: 2126274003}
   - {fileID: 2013576927}
   - {fileID: 354046215}
+  - {fileID: 1729471860}
   - {fileID: 2113595563}
   - {fileID: 1071257909}
-  - {fileID: 2092575532}
   - {fileID: 1850453854}

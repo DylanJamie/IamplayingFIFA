@@ -6,9 +6,8 @@ using UnityEngine.InputSystem;
 
 // Owns which PlayerController is currently being controlled by the user and forwards the input system to one player only
 public class PlayerSwitcher : MonoBehaviour {
-    [Header("Players")]
-    public PlayerController player_1;
-    public PlayerController player_2;
+    [Header("Team")]
+    public System.Collections.Generic.List<PlayerController> teamPlayers;
 
     [Header("Ball")]
     public Transform ball;
@@ -30,10 +29,6 @@ public class PlayerSwitcher : MonoBehaviour {
     
     // Start funct
     void Start() {
-        // Wire each player to know about the other, and about this switcher
-	// this makes it so the Player Switcher field 
-        player_1.teammate = player_2;
-	player_2.teammate = player_1;
 	// this is a reference that we can refer back to 'this' helps us find the other player when we pass the ball
 	player_1.playerSwitcher = this;
         player_2.playerSwitcher = this;

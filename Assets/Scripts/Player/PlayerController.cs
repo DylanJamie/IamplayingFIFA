@@ -12,9 +12,11 @@ public class PlayerController : MonoBehaviour
     
     // speed variable is movement speed so here we are defining a 5 float speed
     [Header("Movement")]
-    public float moveSpeed = 6f;
+    public float moveSpeed = 4f;
     // How fast the player Turns to face movement direction
     public float rotationSpeed = 720f;
+    public float jog_speed = 4f;
+    public float sprint_speed = 8f;
 
     [Header("Dribbling")]
     // How far in front of the player the ball sits while dribbling
@@ -82,9 +84,11 @@ public class PlayerController : MonoBehaviour
     // AI Control and runs
     [Header("AI/Control")]
     public bool isAIControlled = false;
-    // this will be the other player
-    public PlayerController teammate;
     public PlayerSwitcher playerSwitcher;
+
+    [Header("AI Support")]
+    public Vector3 pendingReceivePoint;
+    public bool isReceivingPass = false;
 
     [Header("AI Supportting Runs")]
     public float aiRunSpeed = 5f;
@@ -213,10 +217,10 @@ public class PlayerController : MonoBehaviour
 	// Later might add energy into the game
 	// If the player is holding the Shift key sprint or increase move speed
 	if (isSprinting == true) {
-	    moveSpeed = 8f;
+	    moveSpeed = sprint_speed;
 	}
 	else if (isSprinting == false) {
-	    moveSpeed = 6f;
+	    moveSpeed = jog_speed;
 	}
     }
     
@@ -366,13 +370,17 @@ public class PlayerController : MonoBehaviour
 	passDirection.y = 0.1f;
 	ballRbRef.AddForce(passDirection.normalized * passPower, ForceMode.Impulse);
 
-	// Set the possession for the current player
-	SetPossession(false);
+	teammate.isReceivingPass = true;
+	teammate.pendingReceivePoint = teammate.transform.position + passDirection.normalized * 5f; // rough landing estimate
+	
+	// Release all ball physics
+	ReleaseBallPhysics();
 
-	// Hand the control over to the teammate
-	if (playerSwitcher != null) {
-	    playerSwitcher.BallReleased(this);
-	}
+	// Target transform for the pass dirction
+	target.isReceivingPass = true;
+	target.pendingReceivePoint = target.transform.position + passDirection.normalized * 5f;
+	
+	playerSwitcher.BallReleased(this);
 
 	// Shooting Sound
 	audio_source.PlayOneShot(pass_sound);
@@ -425,6 +433,22 @@ public class PlayerController : MonoBehaviour
 
     // AI Support Run
     void HandleAISupportRun() {
+	// check to see if the player is recieving a pass
+	if (isReceivingPass) {
+	    RunToReceivePoint();
+	    return;
+	}
+
+	// Support relative to whoever currently has the ball not a fixed "teammate" reference
+	PlayerController ballCarrier = (playerSwitcher.ActivePlayer != null) ? playerSwitcher.ActivePlayer : null;
+	if (ballCarrier == null) {
+	    // Ball is loose and nobody's receiving — chase the ball itself, not each other (Will need to assure that this doesnt make all the teammates go to the ball)
+	    Vector3 loosePos = ball.position;
+	    transform.position = Vector3.MoveTowards(transform.position, loosePos, aiRunSpeed * Time.deltaTime);
+	    FaceTowards(loosePos);
+	    return;
+	}
+
 	Vector3 targetPos = teammate.transform.position + teammate.transform.forward * aiSupportDistance + teammate.transform.right * aiLateralOffset;
 
 	// Clamp the teammate between these values
@@ -436,14 +460,29 @@ public class PlayerController : MonoBehaviour
 
 	// calculate the direction that the AI player looks
 	Vector3 look_direction = targetPos - transform.position;
-	look_direction.y = 0f;
+        FaceTorwards(targetPos);
+    }
 
-	
+    // if the player is reciveing he will run to the recieving point
+    void RunToReceivePoint() {
+	transform.position = Vector3.MoveTowards(transform.position, pendingReceivePoint, aiRunSpeed * Time.deltaTime);
+	FaceTowards(pendingReceivePoint);
+
+	if (Vector3.Distance(transform.position, ball.position) < 1.2f) {
+	    // arrived, CheckForPossession will pick them up from here
+	    isReceivingPass = false;
+	}
+    }
+
+    // if the player is at the point of the vector. Turn toward the last player
+    void FaceTowards(Vector3 targetPos) {
+	Vector3 look_direction = targetPos - transform.position;
+	look_direction.y = 0f;
 	if (look_direction.sqrMagnitude > 0.01f) {
 	    transform.rotation = Quaternion.LookRotation(look_direction);
 	}
     }
-
+    
     // Resets this player back to its own start position/rotation
     public void ResetToStart() {
 	if (startPosition != null) {
@@ -453,6 +492,17 @@ public class PlayerController : MonoBehaviour
 
 	// reuse your existing shot/ball-state reset
 	ResetShot();
+    }
+
+    // Called when this player voluntarily releases the ball (e.g. passing).
+    // Unlike SetPossession(false), this has nothing to do with being tackled.
+    void ReleaseBallPhysics() {
+	if (ballRb != null) {
+	    ballRb.isKinematic = false;
+	}
+	
+	ballVelocity = Vector3.zero;
+	bobTimer = 0f;
     }
     
     // -------- Public Method -----------
