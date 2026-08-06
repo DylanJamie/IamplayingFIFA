@@ -355,23 +355,26 @@ public class PlayerController : MonoBehaviour
 	ballRb.AddForce(shotDirection.normalized * power, ForceMode.Impulse);
     }
 
-    // Passing the ball to a teammate
+    // Passing the ball
     public void PassBall() {
-	if (isAIControlled || hasShot || teammate == null) {
+	if (isAIControlled || hasShot) {
 	    return;
 	}
 
 	// makes the ball not follow a script and gets the ball ref obj
+	PlayerController target = playerSwitcher.GetBestPassTarget(this);
+	if (target == null) {
+	    return;
+	}
+
+	// Get the ball object
 	Rigidbody ballRbRef = ball.GetComponent<Rigidbody>();
 	ballRbRef.isKinematic = false;
 
 	// Force and direction
-	Vector3 passDirection = (teammate.transform.position - ball.position);
+	Vector3 passDirection = (target.transform.position - ball.position);
 	passDirection.y = 0.1f;
 	ballRbRef.AddForce(passDirection.normalized * passPower, ForceMode.Impulse);
-
-	teammate.isReceivingPass = true;
-	teammate.pendingReceivePoint = teammate.transform.position + passDirection.normalized * 5f; // rough landing estimate
 	
 	// Release all ball physics
 	ReleaseBallPhysics();
@@ -449,7 +452,7 @@ public class PlayerController : MonoBehaviour
 	    return;
 	}
 
-	Vector3 targetPos = teammate.transform.position + teammate.transform.forward * aiSupportDistance + teammate.transform.right * aiLateralOffset;
+	Vector3 targetPos = ballCarrier.transform.position + ballCarrier.transform.forward * aiSupportDistance + ballCarrier.transform.right * aiLateralOffset;
 
 	// Clamp the teammate between these values
 	targetPos.x = Mathf.Clamp(targetPos.x, -46f, 46f);
@@ -460,7 +463,7 @@ public class PlayerController : MonoBehaviour
 
 	// calculate the direction that the AI player looks
 	Vector3 look_direction = targetPos - transform.position;
-        FaceTorwards(targetPos);
+        FaceTowards(targetPos);
     }
 
     // if the player is reciveing he will run to the recieving point

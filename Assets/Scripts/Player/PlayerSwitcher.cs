@@ -30,11 +30,12 @@ public class PlayerSwitcher : MonoBehaviour {
     // Start funct
     void Start() {
 	// this is a reference that we can refer back to 'this' helps us find the other player when we pass the ball
-	player_1.playerSwitcher = this;
-        player_2.playerSwitcher = this;
-
+	foreach (PlayerController pc in teamPlayers) {
+	    pc.playerSwitcher = this;
+	}
+	
 	// set player_1 to active at first
-        SetActive(player_1);
+        SetActive(teamPlayers[0]);
     }
 
     // Update function constantly check if the ball is loose
@@ -48,9 +49,12 @@ public class PlayerSwitcher : MonoBehaviour {
     void SetActive(PlayerController newActive) {
         activePlayer = newActive;
 
-        player_1.isAIControlled = (player_1 != activePlayer);
-        player_2.isAIControlled = (player_2 != activePlayer);
+	// Loop through all the players and 
+	foreach (PlayerController pc in teamPlayers) {
+	    pc.isAIControlled = (pc != activePlayer);
+	}
 
+	// Ball is with a player so false
 	ballIsLoose = false;
     }
 
@@ -75,28 +79,51 @@ public class PlayerSwitcher : MonoBehaviour {
     
     // check to see if the player can get the possession
     void CheckForPossession() {
-
-	// check to make sure player doesnt get their own pass
 	bool graceActive = Time.time < releaseTime + selfPossessionGrace;
+	PlayerController closest = null;
+	float closestDist = float.MaxValue;
 
-	// calculate the distance from player to ball for each player
-	float dist_1 = Vector3.Distance(player_1.transform.position, ball.position);
-        float dist_2 = Vector3.Distance(player_2.transform.position, ball.position);
+	foreach (PlayerController pc in teamPlayers) {
+	    if (graceActive && pc == lastPasser) {
+		continue;
+	    }
 
-	// see if the player has over 0.4 sec to last pass or was the last passer
-	bool one_Eligible = !(graceActive && player_1 == lastPasser);
-	bool two_Eligible = !(graceActive && player_2 == lastPasser);
+	    float dist = Vector3.Distance(pc.transform.position, ball.position);
+	    if (dist <= possessionDistance && dist < closestDist) {
+		closest = pc;
+		closestDist = dist;
+	    }
+	}
 
-	// see if the distance from the Eligible reciever is close enough to the ball to become active
-	if (one_Eligible && dist_1 <= possessionDistance && (!two_Eligible || dist_1 <= dist_2)) {
-            SetActive(player_1);
-        } else if (two_Eligible && dist_2 <= possessionDistance && (!one_Eligible || dist_2 <= dist_1)) {
-            SetActive(player_2);
-        }
+	// Set the closest player to the ball as active
+	if (closest != null) {
+	    SetActive(closest);
+	}
     }
-	
+
+    // get the closest or the best target person closest to your pass
+    public PlayerController GetBestPassTarget(PlayerController passer) {
+	PlayerController best = null;
+	float bestScore = float.MinValue;
+
+	foreach (PlayerController pc in teamPlayers) {
+	    if (pc == passer) {
+		continue;
+	    }
+
+	    // Closest teammate is roughlty ahead of the passer
+	    Vector3 toTeammate = (pc.transform.position - passer.transform.position);
+	    float forwardAlignment = Vector3.Dot(passer.transform.forward, toTeammate.normalized);
+	    if (forwardAlignment > bestScore) {
+		bestScore = forwardAlignment;
+		best = pc;
+	    }
+	}
+	return best;
+    }
+    
     // Called by the goal manager after the posititons are reset to the posetions are returned clean
     public void ResetPossessionTo() {
-        SetActive(player_1);
+        SetActive(teamPlayers[0]);
     }
 }
