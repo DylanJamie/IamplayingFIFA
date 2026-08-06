@@ -6,18 +6,38 @@ using UnityEngine;
 // MonoBehaviour == allows a person to attach the script to a game object
 public class CameraFollow : MonoBehaviour
 {
-    // Player is a reference to another object within the game/schene 
+    [Header("References")]
+    // Ball is a reference to another object within the game/schene 
     // Transform is like a stuct that contains Position, rotation and scale for an object
-    public Transform player;
-    // offset is a 3D vector that tells the app how far the camera should be from the player
-    public Vector3 offset;
+    public Transform ball;
+    public PlayerSwitcher playerSwitcher;
 
+    [Header("Offsets")]
+    // offset is a 3D vector that tells the app how far the camera should be from the player
+    public Vector3 ballOffset;
+    public Vector3 playerOffset;
+
+    [Header("Settings")]
+    public float followSmoothSpeed = 8f;
+    
     // Another special unity function that is called after all Update() calls are done
-    void LateUpdate()
-    {
-        // Sets the cameras positon based on the players position and the offset value
-        transform.position = player.position + offset;
-        // Rotates the camera to always face the player
-        transform.LookAt(player);
+    void LateUpdate() {
+	PlayerController activePlayer = playerSwitcher.ActivePlayer;
+
+	// once the player has shot lock on to the target so we can see the celebration
+	if (activePlayer != null && activePlayer.HasShot) {
+            FollowTarget(activePlayer.transform, playerOffset);
+	} else {
+	    FollowTarget(ball.transform, ballOffset);
+	}
+    }
+
+    // Follow target function
+    void FollowTarget(Transform target, Vector3 offset) {
+        Vector3 desiredPos = target.position + offset;
+        transform.position = Vector3.Lerp(transform.position, desiredPos, followSmoothSpeed * Time.deltaTime);
+        transform.LookAt(target);
     }
 }
+	    
+

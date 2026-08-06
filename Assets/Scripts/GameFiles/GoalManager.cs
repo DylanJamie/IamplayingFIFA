@@ -127,7 +127,7 @@ public class GoalManager : MonoBehaviour
 	foreach (PlayerController pc in players) {
 	    pc.ResetToStart();
 	    pc._isCelebrating = false;
-	    pc.moveSpeed = 6f;
+	    pc.moveSpeed = pc.jog_speed;
 	}
 	
 	playerSwitcher.ResetPossessionTo();
