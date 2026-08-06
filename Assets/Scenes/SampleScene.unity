@@ -758,6 +758,7 @@ MonoBehaviour:
   playerSwitcher: {fileID: 354046216}
   score: 0
   goalEffect: {fileID: 0}
+  cameraFollow: {fileID: 963194229}
 --- !u!4 &354046215
 Transform:
   m_ObjectHideFlags: 0
@@ -785,8 +786,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46ca690e27214187b4dd6ef9ecbeb85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSwitcher
-  player_1: {fileID: 1517838957}
-  player_2: {fileID: 1415288481}
+  teamPlayers:
+  - {fileID: 1517838957}
+  - {fileID: 1415288481}
   ball: {fileID: 786275043}
   possessionDistance: 1.4
   selfPossessionGrace: 0.4
@@ -2750,8 +2752,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb772b32819a847e79673c6720d659e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
-  player: {fileID: 1517838961}
-  offset: {x: 0, y: 5, z: -8}
+  ball: {fileID: 786275043}
+  playerSwitcher: {fileID: 354046216}
+  showCelebration: 0
+  ballOffset: {x: 0, y: 12, z: -10}
+  playerOffset: {x: 0, y: 7, z: -8}
+  followSmoothSpeed: 8
 --- !u!1 &974210357
 GameObject:
   m_ObjectHideFlags: 0
@@ -4098,6 +4104,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 6
   rotationSpeed: 720
+  jog_speed: 4
+  sprint_speed: 8
   dribbleDistance: 0.85
   dribbleHeight: 0.3
   dribbleSmoothSpeed: 12
@@ -4112,12 +4120,14 @@ MonoBehaviour:
   powerBar: {fileID: 2056002061}
   _isCelebrating: 0
   isAIControlled: 0
-  teammate: {fileID: 1517838957}
   playerSwitcher: {fileID: 354046216}
+  pendingReceivePoint: {x: 0, y: 0, z: 0}
+  isReceivingPass: 0
   aiRunSpeed: 5
   aiSupportDistance: 6
   aiLateralOffset: 6
   startPosition: {fileID: 1836412802}
+  positionName: Right Wing
   dribble_sound: {fileID: 0}
   pass_sound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
   shoot_sound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
@@ -4594,6 +4604,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 3
   rotationSpeed: 720
+  jog_speed: 4
+  sprint_speed: 8
   dribbleDistance: 0.85
   dribbleHeight: 0.3
   dribbleSmoothSpeed: 12
@@ -4608,12 +4620,14 @@ MonoBehaviour:
   powerBar: {fileID: 2056002061}
   _isCelebrating: 0
   isAIControlled: 0
-  teammate: {fileID: 1415288481}
   playerSwitcher: {fileID: 354046216}
+  pendingReceivePoint: {x: 0, y: 0, z: 0}
+  isReceivingPass: 0
   aiRunSpeed: 3
   aiSupportDistance: 8
   aiLateralOffset: 8
   startPosition: {fileID: 2092575532}
+  positionName: Striker
   dribble_sound: {fileID: 0}
   pass_sound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
   shoot_sound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
@@ -5782,7 +5796,7 @@ Transform:
   m_GameObject: {fileID: 1836412801}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     // Reference for ball
     public Transform ball;
     public Slider powerBar;
-
+    
     // ----- Private State ------
     // For Animations
     private Animator anim;
@@ -98,6 +98,7 @@ public class PlayerController : MonoBehaviour
     [Header("Positioning")]
     // each player's own formation spot
     public Transform startPosition;
+    public string positionName = "Player";
     
     // ----- Sounds -----
     [Header("Sounds")]

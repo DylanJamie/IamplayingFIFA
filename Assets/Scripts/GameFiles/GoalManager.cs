@@ -39,6 +39,9 @@ public class GoalManager : MonoBehaviour
     // Private variables
     private Rigidbody ballRb;
 
+    [Header("Camera")]
+    public CameraFollow cameraFollow;
+    
     // Cache the BallRb
     void Start() {
 	ballRb = ball.GetComponent<Rigidbody>();
@@ -55,6 +58,11 @@ public class GoalManager : MonoBehaviour
 	PlayerController scorer = playerSwitcher.ActivePlayer;
 	if (scorer != null) {
 	    scorer.PlayCelebration();
+	}
+
+	// Show the player celebrating
+	if (cameraFollow != null) {
+	    cameraFollow.showCelebration = true;
 	}
 	
         // show the goal effect
@@ -116,7 +124,7 @@ public class GoalManager : MonoBehaviour
     
     // Reset the positions function
     void ResetPositions() {
-        // Reset the ball position
+	// Reset the ball position
         ball.position = ballStartPos.position;
 	ballRb.linearVelocity = Vector3.zero;
 	ballRb.angularVelocity = Vector3.zero;
@@ -145,6 +153,11 @@ public class GoalManager : MonoBehaviour
 	    }
 	}
 
+	// set follow player back to false
+	if (cameraFollow != null) {
+	    cameraFollow.SetCelebrationView(false);
+	}
+	
 	// Reset the Positions for the Goalie
 	if (keeper != null) {
 	    KeeperController keeperScript = keeper.GetComponent<KeeperController>();
