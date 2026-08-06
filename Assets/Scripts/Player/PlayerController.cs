@@ -37,7 +37,12 @@ public class PlayerController : MonoBehaviour
     public float shotLift = 0.15f;
 
     [Header("Passing")]
-    public float passPower = 12f;
+    public float minPassPower = 6f;
+    public float maxPassPower = 18f;
+    public float passChargeSpeed = 20f;
+
+    private bool isChargingPass = false;
+    private float currentPassPower = 0f;
 
     [Header("Skills")]
     public float skillcooldown = 1f;
@@ -154,10 +159,19 @@ public class PlayerController : MonoBehaviour
 	if (isCharging) {
 	    currentPower += chargeSpeed * Time.deltaTime;
 	    currentPower = Mathf.Clamp(currentPower, 0, maxCharge);
-	    if (powerBar != null)
+	    if (powerBar != null) {
 		powerBar.value = currentPower / maxCharge;
+	    }
 	}
 
+	// Handle the charging for passing with same power bar
+	if (isChargingPass) {
+	    currentPassPower += passChargeSpeed * Time.deltaTime;
+	    currentPassPower = Mathf.Clamp(currentPassPower, minPassPower, maxPassPower);
+	    if (powerBar != null) {
+		powerBar.value = (currentPassPower - minPassPower) / (maxPassPower - minPassPower);
+	    }
+	}
     }
 	
     // Handle all the movement for the player
@@ -356,18 +370,35 @@ public class PlayerController : MonoBehaviour
 	ballRb.AddForce(shotDirection.normalized * power, ForceMode.Impulse);
     }
 
-    // Passing the ball
-    public void PassBall() {
+    // Called when the Pass button is first pressed
+    public void StartPassCharge() {
 	if (isAIControlled || hasShot) {
 	    return;
 	}
 
+	// Start the passing charge as the key was pressed
+	isChargingPass = true;
+	currentPassPower = minPassPower;
+    }
+    
+    // Passing the ball
+    public void PassBall() {
+	if (!isChargingPass) {
+	    return;
+	}
+	// Switch to false as we have released the pass
+	isChargingPass = false;
+
 	// makes the ball not follow a script and gets the ball ref obj
 	PlayerController target = playerSwitcher.GetBestPassTarget(this);
 	if (target == null) {
+	    currentPassPower = 0f;
+	    if (powerBar != null) {
+		powerBar.value = 0f;
+	    }
 	    return;
 	}
-
+	
 	// Get the ball object
 	Rigidbody ballRbRef = ball.GetComponent<Rigidbody>();
 	ballRbRef.isKinematic = false;
@@ -375,20 +406,25 @@ public class PlayerController : MonoBehaviour
 	// Force and direction
 	Vector3 passDirection = (target.transform.position - ball.position);
 	passDirection.y = 0.1f;
-	ballRbRef.AddForce(passDirection.normalized * passPower, ForceMode.Impulse);
+	ballRbRef.AddForce(passDirection.normalized * currentPassPower, ForceMode.Impulse);
 	
 	// Release all ball physics
 	ReleaseBallPhysics();
 
 	// Target transform for the pass dirction
 	target.isReceivingPass = true;
-	target.pendingReceivePoint = target.transform.position + passDirection.normalized * 5f;
+	target.pendingReceivePoint = target.transform.position + passDirection.normalized * (currentPassPower * 0.4f);
 	
 	playerSwitcher.BallReleased(this);
 
 	// Shooting Sound
 	audio_source.PlayOneShot(pass_sound);
-	
+
+	// Reset the charge to 0 
+	currentPassPower = 0f;
+	if (powerBar != null) {
+	    powerBar.value = 0f;
+	}
     }
 	
     

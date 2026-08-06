@@ -21,8 +21,9 @@ public class InputManager : MonoBehaviour {
 	gamePlayMap.Shoot.started += ctx => playerSwitcher.ActivePlayer?.StartCharging();
         gamePlayMap.Shoot.canceled += ctx => playerSwitcher.ActivePlayer?.ReleaseShot();
 
-	// eventually implement Charge pass
-	gamePlayMap.Pass.performed += ctx => playerSwitcher.ActivePlayer?.PassBall();
+	// Charge pass
+	gamePlayMap.Pass.started += ctx => playerSwitcher.ActivePlayer?.StartPassCharge();
+	gamePlayMap.Pass.canceled += ctx => playerSwitcher.ActivePlayer?.PassBall();
 	
 	// Same method as shooting we are going to do Sprinting
 	// This is because I want to have it on a 'Hold Button' system

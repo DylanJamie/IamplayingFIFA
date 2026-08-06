@@ -2770,8 +2770,9 @@ GameObject:
   - component: {fileID: 974210360}
   - component: {fileID: 974210359}
   - component: {fileID: 974210358}
+  - component: {fileID: 974210362}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Player UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2860,6 +2861,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &974210362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974210357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d8ec5119da974c2db15ce41d8d17d97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerUI
+  playerSwitcher: {fileID: 354046216}
+  playerNameText: {fileID: 99871067}
 --- !u!1 &1020312196
 GameObject:
   m_ObjectHideFlags: 0
@@ -4102,10 +4117,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a4fdf5f871d47548853463f29f7560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 6
+  moveSpeed: 4
   rotationSpeed: 720
   jog_speed: 4
-  sprint_speed: 8
+  sprint_speed: 6
   dribbleDistance: 0.85
   dribbleHeight: 0.3
   dribbleSmoothSpeed: 12
@@ -4602,10 +4617,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a4fdf5f871d47548853463f29f7560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 3
+  moveSpeed: 4
   rotationSpeed: 720
   jog_speed: 4
-  sprint_speed: 8
+  sprint_speed: 6
   dribbleDistance: 0.85
   dribbleHeight: 0.3
   dribbleSmoothSpeed: 12
