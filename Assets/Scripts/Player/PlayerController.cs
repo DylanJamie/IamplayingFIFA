@@ -495,9 +495,8 @@ public class PlayerController : MonoBehaviour
 	targetPos.x = Mathf.Clamp(targetPos.x, -46f, 46f);
 	targetPos.z = Mathf.Clamp(targetPos.z, -133f, 0f);
 
-	// Movetowards the target (transform pos, targetpos, step)
-	transform.position = Vector3.MoveTowards(transform.position, targetPos, aiRunSpeed * Time.deltaTime);
-
+	MoveWithAnimation(targetPos, aiRunSpeed);
+	
 	// calculate the direction that the AI player looks
 	Vector3 look_direction = targetPos - transform.position;
         FaceTowards(targetPos);
@@ -505,15 +504,30 @@ public class PlayerController : MonoBehaviour
 
     // if the player is reciveing he will run to the recieving point
     void RunToReceivePoint() {
-	transform.position = Vector3.MoveTowards(transform.position, pendingReceivePoint, aiRunSpeed * Time.deltaTime);
+	MoveWithAnimation(pendingReceivePoint, aiRunSpeed);
 	FaceTowards(pendingReceivePoint);
 
 	if (Vector3.Distance(transform.position, ball.position) < 1.2f) {
 	    // arrived, CheckForPossession will pick them up from here
 	    isReceivingPass = false;
 	}
+
+	
     }
 
+    // Moves toward a target and drives the Speed animation param based on actual distance covered
+    void MoveWithAnimation(Vector3 targetPos, float speed) {
+	Vector3 oldPos = transform.position;
+	transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+	
+	float distanceMoved = Vector3.Distance(transform.position, oldPos);
+	float visualSpeed = Mathf.Clamp01((distanceMoved / Time.deltaTime) / speed);
+
+	if (anim != null) {
+	    anim.SetFloat("Speed", visualSpeed);
+	}
+    }
+    
     // if the player is at the point of the vector. Turn toward the last player
     void FaceTowards(Vector3 targetPos) {
 	Vector3 look_direction = targetPos - transform.position;
