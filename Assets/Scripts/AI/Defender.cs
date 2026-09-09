@@ -79,7 +79,7 @@ public class Defender : MonoBehaviour {
 	
 	// Move to the desired postion based 
 	if (distanceToball > 1.4f) {
-	    Vector3 newPos = transform.position + direction * currentSpeed; // Time.deltaTime;
+	    Vector3 newPos = transform.position + direction * currentSpeed * Time.deltaTime;
 	    newPos.y = transform.position.y;
 
 	    // Clamp the defender to the field

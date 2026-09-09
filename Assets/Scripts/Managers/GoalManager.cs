@@ -125,12 +125,13 @@ public class GoalManager : MonoBehaviour
     // Reset the positions function
     void ResetPositions() {
 	// Reset the ball position
-        ball.position = ballStartPos.position;
+	ball.position = ballStartPos.position;
+
+	ballRb.isKinematic = false;
 	ballRb.linearVelocity = Vector3.zero;
 	ballRb.angularVelocity = Vector3.zero;
-	// This locks the ball until we start to dribble
 	ballRb.isKinematic = true;
-
+	
 	// reset all players
 	foreach (PlayerController pc in players) {
 	    pc.ResetToStart();

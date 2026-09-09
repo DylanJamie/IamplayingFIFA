@@ -703,7 +703,7 @@ Animator:
   m_GameObject: {fileID: 345858807}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7cffc70017e484f2195d76aa3dd137ba, type: 2}
+  m_Controller: {fileID: 9100000, guid: ee19a00765cd04b4e9d121ecabc488d7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -742,7 +742,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 354046213}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c822633242a54447a75df0595298ebb, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e876eeafd54a482fa653c6d97408a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoalManager
   ball: {fileID: 786275043}
@@ -751,7 +751,7 @@ MonoBehaviour:
   - {fileID: 1517838957}
   - {fileID: 1415288481}
   defender: {fileID: 445881753}
-  keeper: {fileID: 1333571469}
+  keeper: {fileID: 607125727}
   defenderStartPos: {fileID: 76409538}
   scoreText: {fileID: 0}
   missText: {fileID: 0}
@@ -1166,11 +1166,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 445881749}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25d3ad6b4a7064e0dbe33475f292f441, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d78fabb135ee4b73900fffa8ee1036e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Defender
-  baseSpeed: 0.05
-  maxSpeed: 0.1
+  baseSpeed: 4
+  maxSpeed: 6
   ball: {fileID: 786275043}
   playerController: {fileID: 1517838957}
   dribbleDistance: 0.85
@@ -1413,15 +1413,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 607125723}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03490cf31e6f642eaad106860fde466a, type: 3}
+  m_Script: {fileID: 11500000, guid: f295f7b077b7145bdb033f42879dddad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KeeperController
   patrolSpeed: 2.5
   patrolRange: 2.5
   maxSpeed: 6
-  reactDistance: -18
+  reactDistance: 12
   reactionDelay: 0.2
-  saveSpeed: 2
+  saveSpeed: 6
   diveRange: 3.5
   saveRadius: 0.8
   keeperErrorMargin: 0.4
@@ -1429,7 +1429,7 @@ MonoBehaviour:
   ball: {fileID: 786275043}
   player: {fileID: 1517838957}
   goalManager: {fileID: 0}
-  keeperAnimator: {fileID: 807400279}
+  keeperAnimator: {fileID: 0}
   catchRadius: 1
 --- !u!54 &607125729
 Rigidbody:
@@ -1487,7 +1487,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 668413348}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1936c6dbf6d7447098b736fe51a57a53, type: 3}
+  m_Script: {fileID: 11500000, guid: 4490c0c6079d441d1ba10373fa0b0bfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MissDetector
   goalManager: {fileID: 354046214}
@@ -2088,7 +2088,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 786275038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d42aebdc4d5494d52821d47d0158feaf, type: 3}
+  m_Script: {fileID: 11500000, guid: edaad45c5fe7a4e4295efb5a9a852440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BallSoundHandler
   ballHitSound: {fileID: 8300000, guid: c7841f7bd84764aa8baf699949f49309, type: 3}
@@ -2195,11 +2195,6 @@ AudioSource:
 --- !u!4 &807400278 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
-  m_PrefabInstance: {fileID: 2096042613}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &807400279 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
   m_PrefabInstance: {fileID: 2096042613}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &811437154
@@ -2323,7 +2318,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 811437154}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c10775c28dfd4e02b39a4533d83a493, type: 3}
+  m_Script: {fileID: 11500000, guid: c9880973d0ae148c4b47de3a4413c8ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoalTrigger
   goalManager: {fileID: 354046214}
@@ -2749,14 +2744,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb772b32819a847e79673c6720d659e8, type: 3}
+  m_Script: {fileID: 11500000, guid: e5cd1bf269b5545098201362848fe05d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   ball: {fileID: 786275043}
   playerSwitcher: {fileID: 354046216}
   showCelebration: 0
-  ballOffset: {x: 0, y: 12, z: -10}
-  playerOffset: {x: 0, y: 7, z: -8}
+  ballOffset: {x: 0, y: 10, z: -10}
+  playerOffset: {x: 0, y: 6, z: -6}
   followSmoothSpeed: 8
 --- !u!1 &974210357
 GameObject:
@@ -2870,7 +2865,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 974210357}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d8ec5119da974c2db15ce41d8d17d97, type: 3}
+  m_Script: {fileID: 11500000, guid: a99049f88efb44727b28c7ed4fea4f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUI
   playerSwitcher: {fileID: 354046216}
@@ -4113,7 +4108,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1391278779}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3c4399dfa2ea41968fb76f32fa827f4, type: 3}
+  m_Script: {fileID: 11500000, guid: a74c575da3de441c0a09ea27e423223f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
   playerSwitcher: {fileID: 354046216}
@@ -4500,7 +4495,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1415288476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3c4399dfa2ea41968fb76f32fa827f4, type: 3}
+  m_Script: {fileID: 11500000, guid: a74c575da3de441c0a09ea27e423223f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
   playerSwitcher: {fileID: 354046216}
@@ -5241,7 +5236,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1517838956}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3c4399dfa2ea41968fb76f32fa827f4, type: 3}
+  m_Script: {fileID: 11500000, guid: a74c575da3de441c0a09ea27e423223f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
   playerSwitcher: {fileID: 354046216}
@@ -5371,7 +5366,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1555649159}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1936c6dbf6d7447098b736fe51a57a53, type: 3}
+  m_Script: {fileID: 11500000, guid: 4490c0c6079d441d1ba10373fa0b0bfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MissDetector
   goalManager: {fileID: 354046214}
@@ -5692,19 +5687,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1571022221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f398ba6bda20046118cb9496eb6fd4bb, type: 3}
+  m_Script: {fileID: 11500000, guid: 4720251e860e742e28daccca92f88070, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetBuilder
   netPiecePrefab: {fileID: 5808106235925709081, guid: b601e8d40918d4aad984d0d647dbf768, type: 3}
-  verticalCount: 18
+  verticalCount: 20
   horizontalCount: 10
   spacing: 0.3
-  width: 9
-  height: 3
+  width: 8.6
+  height: 3.09
   netDepth: 2.5
-  leftSideCount: 15
-  rightSideCount: 15
-  topSideCount: 15
+  leftSideCount: 10
+  rightSideCount: 10
+  topSideCount: 10
 --- !u!1 &1618802129
 GameObject:
   m_ObjectHideFlags: 0
@@ -7234,7 +7229,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2097690712}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1936c6dbf6d7447098b736fe51a57a53, type: 3}
+  m_Script: {fileID: 11500000, guid: 4490c0c6079d441d1ba10373fa0b0bfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MissDetector
   goalManager: {fileID: 354046214}
