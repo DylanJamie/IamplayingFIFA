@@ -9,11 +9,3 @@ public class FormationSlot {
     public Transform spawnPoint;  // where this player starts
     public PlayerRole role;       // used for AI behavior differences later
 }
-
-// Broad behavior categories — drives AI positioning logic, not just cosmetics
-public enum PlayerRole {
-    Attacker,
-    Midfielder,
-    Defender,
-    Goalkeeper
-}

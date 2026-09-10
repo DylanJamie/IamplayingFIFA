@@ -13,13 +13,11 @@ public class GoalManager : MonoBehaviour
     
     // One list, holds every player regardless of team size
     public System.Collections.Generic.List<PlayerController> players;
-
-    // Assign the player inspector
-    public Transform defender;
-    public Transform keeper;
+    // All AI defenders (any team size, scales to 11v11)
+    public System.Collections.Generic.List<DefenderAI> defenders;
     
-    // The ball Start pos and player start pos
-    public Transform defenderStartPos;
+    // Assign the player inspector
+    public Transform keeper;
     
     // UI Text that Displays Score
     public Text scoreText;
@@ -141,19 +139,13 @@ public class GoalManager : MonoBehaviour
 	
 	playerSwitcher.ResetPossessionTo();
 	
-	// Reset the Defender
-	if (defender != null && defenderStartPos != null) {
-	    defender.position = defenderStartPos.position;
-	    defender.rotation = defenderStartPos.rotation;
-
-	    // Reset Velovity of Defender
-	    // Rigidbody defRb = defender.GetComponent<Rigidbody>();
-	    Defender defScript = defender.GetComponent<Defender>();
-	    if (defScript != null) {
-		defScript.ResetDefender();
+	// Reset all AI defenders — each one resets itself back to its own homeAnchor
+	if (defenders != null) {
+	    foreach (DefenderAI d in defenders) {
+		if (d != null) d.ResetDefender();
 	    }
 	}
-
+	
 	// set follow player back to false
 	if (cameraFollow != null) {
 	    cameraFollow.SetCelebrationView(false);
