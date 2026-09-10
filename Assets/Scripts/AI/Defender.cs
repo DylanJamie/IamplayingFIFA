@@ -74,7 +74,7 @@ public class Defender : MonoBehaviour {
 	    currentSpeed = Mathf.Lerp(baseSpeed, maxSpeed, speedFactor);
 	}
 		
-	// Apply the movement 
+	// Apply the movement (I dont think this moves the player) 
 	float distanceToball = Vector3.Distance(transform.position, ball.position);
 	
 	// Move to the desired postion based 
