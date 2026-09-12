@@ -112,6 +112,10 @@ public class PlayerController : MonoBehaviour
     public AudioClip shoot_sound;
     public AudioClip footstep_sound;
     public AudioClip sui_sound;
+
+    // Camera Transform change
+    // Create logic based on the way that the camera is looking
+    public Transform cameraTransform;
     
     // Cooldown so the footsteps dont overlap
     private float lastFootstepTime = 0f;
