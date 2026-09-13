@@ -174,4 +174,25 @@ public class DefenderAI : MonoBehaviour {
 	    body.angularVelocity = Vector3.zero;
 	}
     }
+
+    // ---------- Debug Visualization ----------
+    // Draws a colored indicator above each defender showing their current AI state,
+    // plus a line back to their home anchor. Editor-only, has zero effect on builds.
+    #if UNITY_EDITOR
+    void OnDrawGizmos() {
+        Color c = state switch {
+            AIState.Pressing => Color.red,
+            AIState.Marking => Color.yellow,
+            _ => Color.green // Zonal
+        };
+        Gizmos.color = c;
+        Gizmos.DrawSphere(transform.position + Vector3.up * 2.5f, 0.3f);
+
+        if (homeAnchor != null) {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(homeAnchor.position, 0.5f);
+            Gizmos.DrawLine(transform.position, homeAnchor.position);
+        }
+    }
+    #endif
 }
