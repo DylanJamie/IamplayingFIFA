@@ -159,13 +159,19 @@ public class DefenderAI : MonoBehaviour {
     // Reset the defender
     // set the state back to zonal 
     public void ResetDefender() {
-        isResetting = false;
-        ballVelocity = Vector3.zero;
-        state = AIState.Zonal;
-        markTarget = null;
-        if (body != null) {
-            body.linearVelocity = Vector3.zero;
-            body.angularVelocity = Vector3.zero;
-        }
+	isResetting = false;
+	ballVelocity = Vector3.zero;
+	state = AIState.Zonal;
+	markTarget = null;
+
+	if (homeAnchor != null) {
+	    transform.position = homeAnchor.position;
+	    transform.rotation = homeAnchor.rotation;
+	}
+
+	if (body != null) {
+	    body.linearVelocity = Vector3.zero;
+	    body.angularVelocity = Vector3.zero;
+	}
     }
 }

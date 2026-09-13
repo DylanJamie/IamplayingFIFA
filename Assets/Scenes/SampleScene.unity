@@ -1727,7 +1727,7 @@ MonoBehaviour:
   patrolSpeed: 2.5
   patrolRange: 2.5
   maxSpeed: 6
-  reactDistance: 12
+  reactDistance: -18
   reactionDelay: 0.2
   saveSpeed: 6
   diveRange: 3.5
@@ -1737,7 +1737,7 @@ MonoBehaviour:
   ball: {fileID: 786275043}
   player: {fileID: 1517838957}
   goalManager: {fileID: 0}
-  keeperAnimator: {fileID: 0}
+  keeperAnimator: {fileID: 1660451693}
   catchRadius: 1
 --- !u!54 &607125729
 Rigidbody:
@@ -3244,7 +3244,7 @@ MonoBehaviour:
   playerSwitcher: {fileID: 354046216}
   showCelebration: 0
   ballOffset: {x: 20, y: 10, z: 0}
-  playerOffset: {x: 0, y: 6, z: -6}
+  playerOffset: {x: 0, y: 10, z: -10}
   followSmoothSpeed: 8
 --- !u!1 &974210357
 GameObject:
@@ -6858,6 +6858,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1764762893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1660451692 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+  m_PrefabInstance: {fileID: 2096042613}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1660451693
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660451692}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+  m_Controller: {fileID: 9100000, guid: e7ff6f0c3f35944e3befb6b8f991fa10, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1703934682
 GameObject:
   m_ObjectHideFlags: 0
@@ -8380,7 +8407,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1660451693}
   m_SourcePrefab: {fileID: 100100000, guid: aeca4fdcfe2864b66b359b278cae2ba3, type: 3}
 --- !u!1 &2097690712
 GameObject:
