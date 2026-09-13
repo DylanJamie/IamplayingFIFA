@@ -184,6 +184,17 @@ public class PlayerController : MonoBehaviour
 	if (isAIControlled) {
 	    return;
 	}
+
+	// Build camera-relative forward/right so input matches what the player sees on screen,
+	// not raw world axes (which only lined up correctly when the camera faced straight down Z)
+	Vector3 camForward = cameraTransform.forward;
+	Vector3 camRight = cameraTransform.right;
+	camForward.y = 0f;
+	camRight.y = 0f;
+	camForward.Normalize();
+	camRight.Normalize();
+
+	_moveInput = camForward * Input.y + camRight * Input.x;
 	
 	// moveX & moveY get the keyboard inputs from the user for Left/Right or Up/Down
         // Returns a value from -1 to 1 based on the input
@@ -191,7 +202,7 @@ public class PlayerController : MonoBehaviour
         // inputdir creates a 3 directional movement (x, y, z) and then multiplies it by the speed
         // so if there is (0, 0, 1) * 5 == (0, 0, 5) there is no Y because we only move on the x and z axis
         // Time.delta time gets the time since the last frame Movement * frames = the amount of units needed to move
-	_moveInput = new Vector3(Input.x, 0, Input.y);
+	// _moveInput = new Vector3(Input.x, 0, Input.y);
 
         // Rotate the player to face movement direction
         // If the player is moving make them face the direction of the movement
