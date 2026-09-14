@@ -9,6 +9,12 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     // ----- Inspector Settings -----
+
+    [Header("Positioning")]
+    // each player's own formation spot
+    public Transform startPosition;
+    public string positionName = "Player";
+    public PlayerRole role;
     
     // speed variable is movement speed so here we are defining a 5 float speed
     [Header("Movement")]
@@ -40,7 +46,7 @@ public class PlayerController : MonoBehaviour
     public float minPassPower = 6f;
     public float maxPassPower = 18f;
     public float passChargeSpeed = 20f;
-
+    
     private bool isChargingPass = false;
     private float currentPassPower = 0f;
 
@@ -52,7 +58,7 @@ public class PlayerController : MonoBehaviour
     // Reference for ball
     public Transform ball;
     public Slider powerBar;
-    
+
     // ----- Private State ------
     // For Animations
     private Animator anim;
@@ -61,6 +67,9 @@ public class PlayerController : MonoBehaviour
     private bool hasShot = false;
     public bool HasShot => hasShot;
 
+    // Direction this player is currently aiming a pass — held movement input if any, otherwise facing direction
+    public Vector3 AimDirection => _moveInput.magnitude > 0.1f ? _moveInput.normalized : transform.forward;
+    
     private bool isCharging = false;
     private float currentPower = 0f;
 
@@ -100,10 +109,10 @@ public class PlayerController : MonoBehaviour
     public float aiSupportDistance = 6f;
     public float aiLateralOffset = 6f;
 
-    [Header("Positioning")]
-    // each player's own formation spot
-    public Transform startPosition;
-    public string positionName = "Player";
+    // [Header("Positioning")]
+    // // each player's own formation spot
+    // public Transform startPosition;
+    // public string positionName = "Player";
     
     // ----- Sounds -----
     [Header("Sounds")]
@@ -132,6 +141,11 @@ public class PlayerController : MonoBehaviour
 
 	// add the audio source
 	audio_source = GetComponent<AudioSource>();
+
+	// if the camera source is null add the main camera
+	if (cameraTransform == null && Camera.main != null) {
+	    cameraTransform = Camera.main.transform;
+	}
     }
     
     // Update is a Unity function that is run once per frame 
@@ -196,14 +210,6 @@ public class PlayerController : MonoBehaviour
 
 	_moveInput = camForward * Input.y + camRight * Input.x;
 	
-	// moveX & moveY get the keyboard inputs from the user for Left/Right or Up/Down
-        // Returns a value from -1 to 1 based on the input
-        // new Vector3(moveX, 0, moveZ) decides which direction to move
-        // inputdir creates a 3 directional movement (x, y, z) and then multiplies it by the speed
-        // so if there is (0, 0, 1) * 5 == (0, 0, 5) there is no Y because we only move on the x and z axis
-        // Time.delta time gets the time since the last frame Movement * frames = the amount of units needed to move
-	// _moveInput = new Vector3(Input.x, 0, Input.y);
-
         // Rotate the player to face movement direction
         // If the player is moving make them face the direction of the movement
         if (_moveInput.magnitude > 0.1f) {
@@ -494,27 +500,18 @@ public class PlayerController : MonoBehaviour
 	    return;
 	}
 
-	// Support relative to whoever currently has the ball not a fixed "teammate" reference
-	PlayerController ballCarrier = (playerSwitcher.ActivePlayer != null) ? playerSwitcher.ActivePlayer : null;
-	if (ballCarrier == null) {
-	    // Ball is loose and nobody's receiving — chase the ball itself, not each other (Will need to assure that this doesnt make all the teammates go to the ball)
-	    Vector3 loosePos = ball.position;
-	    transform.position = Vector3.MoveTowards(transform.position, loosePos, aiRunSpeed * Time.deltaTime);
-	    FaceTowards(loosePos);
-	    return;
-	}
-
-	Vector3 targetPos = ballCarrier.transform.position + ballCarrier.transform.forward * aiSupportDistance + ballCarrier.transform.right * aiLateralOffset;
-
-	// Clamp the teammate between these values
+	Vector3 anchor = startPosition != null ? startPosition.position : transform.position;
+	PlayerController ballCarrier = playerSwitcher.ActivePlayer;
+	
+	Vector3 targetSource = ballCarrier != null ? ballCarrier.transform.position : ball.position;
+	Vector3 shift = (targetSource - anchor) * 0.3f;
+	Vector3 targetPos = anchor + shift;
+	
 	targetPos.x = Mathf.Clamp(targetPos.x, -46f, 46f);
 	targetPos.z = Mathf.Clamp(targetPos.z, -133f, 0f);
-
-	MoveWithAnimation(targetPos, aiRunSpeed);
 	
-	// calculate the direction that the AI player looks
-	Vector3 look_direction = targetPos - transform.position;
-        FaceTowards(targetPos);
+	MoveWithAnimation(targetPos, aiRunSpeed);
+	FaceTowards(targetPos);
     }
 
     // if the player is reciveing he will run to the recieving point

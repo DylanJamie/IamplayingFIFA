@@ -17,6 +17,7 @@ public class PlayerSwitcher : MonoBehaviour {
     [Header("Pass Settings")]
     // this will prevent the player from passing and getting their own pass back
     public float selfPossessionGrace = 0.4f;
+    public float maxPassRange = 40f;
     
     private PlayerController activePlayer;
     // public pointer to active player
@@ -35,7 +36,7 @@ public class PlayerSwitcher : MonoBehaviour {
 	}
 	
 	// set player_1 to active at first
-        SetActive(teamPlayers[0]);
+        SetActive(teamPlayers[9]);
     }
 
     // Update function constantly check if the ball is loose
@@ -103,20 +104,31 @@ public class PlayerSwitcher : MonoBehaviour {
 
     // get the closest or the best target person closest to your pass
     public PlayerController GetBestPassTarget(PlayerController passer) {
+	Vector3 aimDir = passer.AimDirection;
+	aimDir.y = 0f;
+	aimDir.Normalize();
+	
 	PlayerController best = null;
-	float bestScore = float.MinValue;
+	float bestLateral = float.MaxValue;
 
 	foreach (PlayerController pc in teamPlayers) {
 	    if (pc == passer) {
 		continue;
 	    }
 
-	    // Closest teammate is roughlty ahead of the passer
-	    Vector3 toTeammate = (pc.transform.position - passer.transform.position);
-	    float forwardAlignment = Vector3.Dot(passer.transform.forward, toTeammate.normalized);
-	    if (forwardAlignment > bestScore) {
-		bestScore = forwardAlignment;
-		best = pc;
+	    Vector3 toTeammate = pc.transform.position - passer.transform.position;
+	    toTeammate.y = 0f;
+	    
+	    float forwardDist = Vector3.Dot(toTeammate, aimDir);
+	    if (forwardDist <= 0.5f || forwardDist > maxPassRange)
+		continue; // behind you, or too far
+	    
+	    Vector3 lateralOffset = toTeammate - aimDir * forwardDist;
+	    float lateralDist = lateralOffset.magnitude;
+	    
+	    if (lateralDist < bestLateral) {
+		bestLateral = lateralDist;
+	    	best = pc;
 	    }
 	}
 	return best;
@@ -124,6 +136,6 @@ public class PlayerSwitcher : MonoBehaviour {
     
     // Called by the goal manager after the posititons are reset to the posetions are returned clean
     public void ResetPossessionTo() {
-        SetActive(teamPlayers[0]);
+        SetActive(teamPlayers[9]);
     }
 }
