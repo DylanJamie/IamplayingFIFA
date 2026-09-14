@@ -39,6 +39,9 @@ public class GoalManager : MonoBehaviour
 
     [Header("Camera")]
     public CameraFollow cameraFollow;
+
+    [Header("Scoreboard")]
+    public ScoreboardUI scoreboardUI;
     
     // Cache the BallRb
     void Start() {
@@ -50,6 +53,7 @@ public class GoalManager : MonoBehaviour
     {
         // Increase Player score
         score++;
+	
         UpdateScoreUI();
 
 	// Trigger the celebration for the player
@@ -161,19 +165,20 @@ public class GoalManager : MonoBehaviour
     }
 
     //  Update the score
-    void UpdateScoreUI()
-    {
-        if (scoreText != null)
-        {
+    void UpdateScoreUI() {
+        if (scoreText != null) {
             scoreText.text = "Score = " + score;
         }
+	
+	if (scoreboardUI != null) {
+	    scoreboardUI.UpdateScoreDisplay();
+	}
     }
 
     // Hide the goal effect making sure it goes away after reset
     void HideGoalEffect()
     {
-        if (goalEffect != null)
-        {
+        if (goalEffect != null) {
             goalEffect.SetActive(false);
         }
     }
